@@ -1,11 +1,11 @@
-from fastapi import FastAPI, HTTPException, Depends, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.context import CryptContext
-from pymongo import MongoClient
+from fastapi import FastAPI, HTTPException, Depends, status # type: ignore
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm # type: ignore
+from passlib.context import CryptContext # type: ignore
+from pymongo import MongoClient # type: ignore
 from typing import Optional
-from jose import JWTError, jwt
+from jose import JWTError, jwt # type: ignore
 from datetime import datetime, timedelta
-from pydantic import BaseModel
+from pydantic import BaseModel # type: ignore
 
 client = MongoClient("mongodb+srv://rokundhita:dvki-the-best@cluster0.lg9hmzs.mongodb.net/?retryWrites=true&w=majority")
 db = client["jtp"]
@@ -136,6 +136,6 @@ async def delete_user(current_user: User = Depends(currentUser)):
 
 
 if __name__ == "__main__":
-    import uvicorn
+    import uvicorn # type: ignore
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
