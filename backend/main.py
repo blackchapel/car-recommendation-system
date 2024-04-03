@@ -30,13 +30,15 @@ class UserLoginRequest(BaseModel):
     email: str
     password: str
 
-class UserTokenResponse(User):
+class UserTokenResponse(BaseModel):
+    name: str
+    email: str
     access_token: str
     token_type: str
 
 
 def userAuth(email: str, password: str):
-    user = collection.find_one({"email": email})
+    user: User = collection.find_one({"email": email})
     if not user or not verifyPassword(password, user['password']):
         return False
     return user
@@ -72,12 +74,11 @@ async def login(form_data: UserLoginRequest):
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = accessToken(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={"sub": user["email"]}, expires_delta=access_token_expires
     )
     return { 
-        "name": user.name, 
-        "email": user.email,
-        "pssword": user.password,
+        "name": user["name"], 
+        "email": user["email"],
         "access_token": access_token, 
         "token_type": "bearer"
     }
@@ -109,7 +110,6 @@ async def signup(user: User):
     return { 
         "name": user.name, 
         "email": user.email,
-        "password": user.password,
         "access_token": access_token, 
         "token_type": "bearer"
     }
