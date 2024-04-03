@@ -9,9 +9,27 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
+import { signupPost } from "../apis/auth";
 
 const Signup = () => {
-  const handleSubmit = async (event) => {};
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const response = await signupPost({
+        name: data.get("name"),
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+      localStorage.setItem("user", JSON.stringify(response));
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Box>
@@ -74,7 +92,6 @@ const Signup = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
               />
               <TextField
                 margin="normal"
