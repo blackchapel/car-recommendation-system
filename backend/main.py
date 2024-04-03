@@ -6,6 +6,11 @@ from typing import Optional
 from jose import JWTError, jwt # type: ignore
 from datetime import datetime, timedelta
 from pydantic import BaseModel # type: ignore
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "http://localhost:3000",
+]
 
 client = MongoClient("mongodb+srv://rokundhita:dvki-the-best@cluster0.lg9hmzs.mongodb.net/?retryWrites=true&w=majority")
 db = client["jtp"]
@@ -16,6 +21,16 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
