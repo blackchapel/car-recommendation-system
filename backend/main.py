@@ -63,7 +63,7 @@ def hashPassword(password):
     return pwd_context.hash(password)
 
 
-@app.post("/login", response_model=UserTokenResponse)
+@app.post("/api/auth/login", response_model=UserTokenResponse)
 async def login(form_data: UserLoginRequest):
     user: User = userAuth(form_data.email, form_data.password)
     if not user:
@@ -99,7 +99,7 @@ async def currentUser(token: str = Depends(oauth2_scheme)):
     return user
 
 
-@app.post("/signup", response_model=UserTokenResponse)
+@app.post("/api/auth/signup", response_model=UserTokenResponse)
 async def signup(user: User):
     user.password = hashPassword(user.password)
     collection.insert_one(user.dict())
@@ -115,18 +115,18 @@ async def signup(user: User):
     }
 
 
-@app.get("/user", response_model=User)
+@app.get("/api/user", response_model=User)
 async def get_user(current_user: dict = Depends(currentUser)):
     return current_user
 
 
-@app.put("/user", response_model=User)
+@app.put("/api/user", response_model=User)
 async def update_user(user: User, current_user: dict = Depends(currentUser)):
     collection.update_one({"email": current_user['email']}, {"$set": user.dict()})
     return user
 
 
-@app.delete("/user", response_model=dict)
+@app.delete("/api/user", response_model=dict)
 async def delete_user(current_user: User = Depends(currentUser)):
     result = collection.delete_one({"email": current_user['email']})
     if result.deleted_count == 1:
