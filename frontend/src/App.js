@@ -1,5 +1,6 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 import Layout from "./components/Layout";
 import LayoutAuth from "./components/LayoutAuth";
@@ -26,8 +27,24 @@ const router = createBrowserRouter([
   },
 ]);
 
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#c80815",
+    },
+    secondary: {
+      main: "#c85b08",
+    },
+  },
+});
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />;
+    </ThemeProvider>
+  );
 }
 
 export default App;
