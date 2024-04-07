@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, createContext } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
@@ -8,13 +9,22 @@ import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import LayoutHome from "./components/LayoutHome";
+import SearchResults from "./pages/SearchResults";
+import SearchContext from "./context/SearchContext";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <LayoutHome />,
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <Home /> }],
+  },
+  {
+    path: "/search/:searchQuery",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <SearchResults /> }],
   },
   {
     path: "/auth",
@@ -29,7 +39,7 @@ const router = createBrowserRouter([
 
 const theme = createTheme({
   palette: {
-    mode: "light",
+    mode: "dark",
     primary: {
       main: "#c80815",
     },
@@ -40,9 +50,21 @@ const theme = createTheme({
 });
 
 function App() {
+  const [carNames, setCarNames] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
+
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />;
+      <SearchContext.Provider
+        value={{
+          carNames,
+          setCarNames,
+          searchValue,
+          setSearchValue,
+        }}
+      >
+        <RouterProvider router={router} />;
+      </SearchContext.Provider>
     </ThemeProvider>
   );
 }
