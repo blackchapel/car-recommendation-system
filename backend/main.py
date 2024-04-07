@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status # type: ignore
+from fastapi import FastAPI, HTTPException, Depends, status, Query # type: ignore
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm # type: ignore
 from passlib.context import CryptContext # type: ignore
 from pymongo import MongoClient # type: ignore
@@ -6,7 +6,7 @@ from typing import Optional
 from jose import JWTError, jwt # type: ignore
 from datetime import datetime, timedelta
 from pydantic import BaseModel # type: ignore
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware # type: ignore
 
 origins = [
     "http://localhost:3000",
@@ -14,13 +14,26 @@ origins = [
 
 client = MongoClient("mongodb+srv://rokundhita:dvki-the-best@cluster0.lg9hmzs.mongodb.net/?retryWrites=true&w=majority")
 db = client["jtp"]
-collection = db["users"]
+user_collection = db["users"]
+car_collection = db["cars"]
 
 SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "Auth"
+    },
+    {
+        "name": "User"
+    },
+    {
+        "name": "Car"
+    },
+]
+
+app = FastAPI(openapi_tags=tags_metadata)
 
 origins = ["*"]
 
@@ -51,9 +64,28 @@ class UserTokenResponse(BaseModel):
     access_token: str
     token_type: str
 
+class Car(BaseModel):
+    index: int
+    make: str
+    model: str
+    city_mpg_for_fuel_type1: int
+    co2_fuel_type1: int
+    cylinders: int
+    drive: str
+    annual_fuel_cost_for_fuel_type1: int
+    fuel_type: str
+    id: int
+    transmission: str
+    vehicle_size_class: str
+    year: str
+    atv_type: str
+    base_model: str
+    image: str
+    price: str
+
 
 def userAuth(email: str, password: str):
-    user: User = collection.find_one({"email": email})
+    user: User = user_collection.find_one({"email": email})
     if not user or not verifyPassword(password, user['password']):
         return False
     return user
@@ -78,7 +110,7 @@ def hashPassword(password):
     return pwd_context.hash(password)
 
 
-@app.post("/api/auth/login", response_model=UserTokenResponse)
+@app.post("/api/auth/login", tags=["Auth"], response_model=UserTokenResponse)
 async def login(form_data: UserLoginRequest):
     user: User = userAuth(form_data.email, form_data.password)
     if not user:
@@ -108,16 +140,16 @@ async def currentUser(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
-    user = collection.find_one({"email": email})
+    user = user_collection.find_one({"email": email})
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
 
-@app.post("/api/auth/signup", response_model=UserTokenResponse)
+@app.post("/api/auth/signup", tags=["Auth"],response_model=UserTokenResponse)
 async def signup(user: User):
     user.password = hashPassword(user.password)
-    collection.insert_one(user.dict())
+    user_collection.insert_one(user.dict())
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = accessToken(
         data={"sub": user.email}, expires_delta=access_token_expires
@@ -130,24 +162,31 @@ async def signup(user: User):
     }
 
 
-@app.get("/api/user", response_model=User)
+@app.get("/api/user", tags=["User"], response_model=User)
 async def get_user(current_user: dict = Depends(currentUser)):
     return current_user
 
 
-@app.put("/api/user", response_model=User)
+@app.put("/api/user", tags=["User"], response_model=User)
 async def update_user(user: User, current_user: dict = Depends(currentUser)):
-    collection.update_one({"email": current_user['email']}, {"$set": user.dict()})
+    user_collection.update_one({"email": current_user['email']}, {"$set": user.dict()})
     return user
 
 
-@app.delete("/api/user", response_model=dict)
+@app.delete("/api/user", tags=["User"], response_model=dict)
 async def delete_user(current_user: User = Depends(currentUser)):
-    result = collection.delete_one({"email": current_user['email']})
+    result = user_collection.delete_one({"email": current_user['email']})
     if result.deleted_count == 1:
         return {"message": "User deleted successfully"}
     else:
         raise HTTPException(status_code=500, detail="Something went wrong")
+
+
+@app.get("/api/cars/autocomplete/", tags=["Car"], response_model=list[Car])
+async def autocomplete_cars(name: str = Query(...)):
+    regex = {"$regex": f".*{name}.*", "$options": "i"}
+    cars: Car = car_collection.find({"make_model": regex}, {"_id": 0, "index": 1, "make": 1, "model": 1, "city_mpg_for_fuel_type1": 1, "co2_fuel_type1": 1, "cylinders": 1, "drive": 1, "annual_fuel_cost_for_fuel_type1": 1, "fuel_type": 1, "id": 1, "transmission": 1, "vehicle_size_class": 1, "year": 1, "atv_type": 1, "base_model": 1, "image": 1, "price": 1}).limit(50)
+    return cars
 
 
 if __name__ == "__main__":
