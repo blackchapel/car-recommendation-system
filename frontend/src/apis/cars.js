@@ -34,3 +34,14 @@ export const getAutocomplete = async (searchValue) => {
     console.error(error);
   }
 };
+
+export const getSimilarCars = async (index) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/car/search-recommendation?index=${index}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

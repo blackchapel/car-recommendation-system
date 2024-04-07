@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -57,6 +57,7 @@ export default function ResultsCard({
         color: "#fff",
         boxShadow: 3,
         transition: "0.3s",
+        height: "60vh",
         "&:hover": {
           color: "#fff",
           boxShadow: 5,
@@ -68,7 +69,7 @@ export default function ResultsCard({
     >
       <CardMedia
         component={"img"}
-        sx={{ height: 250 }}
+        sx={{ height: "60%" }}
         image={imgUrl}
         title={make}
         onError={() =>
@@ -77,14 +78,15 @@ export default function ResultsCard({
           )
         }
       />
-      <CardContent sx={{ px: "20px" }}>
+      <CardContent sx={{ px: "20px", height: "28%" }}>
         <Typography
           gutterBottom
-          variant="h4"
+          variant="h5"
           component="div"
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
+            letterSpacing: "0.05rem",
           }}
         >
           {make} {model}
