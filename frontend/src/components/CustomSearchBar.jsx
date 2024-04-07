@@ -1,18 +1,29 @@
-import * as React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Autocomplete from "@mui/material/Autocomplete";
 import SearchContext from "../context/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { getAutocomplete } from "../apis/cars";
 export default function CustomSearchBar({ width }) {
-  const { carNames, searchValue, setSearchValue } =
-    React.useContext(SearchContext);
+  const { carNames, setCarNames, searchValue, setSearchValue, setSelectedCar } =
+    useContext(SearchContext);
+  const [textValue, setTextValue] = useState("");
+  const [cars, setCars] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getAutocomplete(textValue);
+      setCarNames((response || []).map((car) => `${car?.make} ${car?.model}`));
+      setCars(response);
+    }
+    fetchData();
+  }, [textValue]);
   return (
     <Paper
       component="form"
@@ -21,7 +32,6 @@ export default function CustomSearchBar({ width }) {
         display: "flex",
         alignItems: "center",
         width: width || "50%",
-        // backgroundColor: "rgba(255, 255, 255, 0.9)",
         borderRadius: 0.5,
       }}
     >
@@ -33,6 +43,9 @@ export default function CustomSearchBar({ width }) {
         value={searchValue}
         onChange={(event, newValue) => {
           setSearchValue(newValue);
+          setSelectedCar(
+            cars.find((car) => `${car.make} ${car.model}` === newValue)
+          );
         }}
         renderInput={(params) => {
           const { InputLabelProps, InputProps, ...rest } = params;
@@ -42,6 +55,8 @@ export default function CustomSearchBar({ width }) {
               placeholder="Search All Cars"
               inputProps={{ "aria-label": "search all cars" }}
               variant="outlined"
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
               {...params.InputProps}
               {...rest}
             />

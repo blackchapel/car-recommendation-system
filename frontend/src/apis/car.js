@@ -21,3 +21,16 @@ export const getCars = async () => {
     console.error(error);
   }
 };
+
+const API_URL = "https://jtp-recommendation-system.onrender.com/api";
+
+export const getAutocomplete = async (searchValue) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/cars/autocomplete?name=${searchValue}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

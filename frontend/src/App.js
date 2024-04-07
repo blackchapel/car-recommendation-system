@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, createContext } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
@@ -52,6 +51,7 @@ const theme = createTheme({
 function App() {
   const [carNames, setCarNames] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
+  const [selectedCar, setSelectedCar] = React.useState({});
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,6 +61,8 @@ function App() {
           setCarNames,
           searchValue,
           setSearchValue,
+          selectedCar,
+          setSelectedCar,
         }}
       >
         <RouterProvider router={router} />;

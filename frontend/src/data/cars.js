@@ -1,4 +1,4 @@
-export const data = [
+[
   {
     _id: {
       $oid: "66129590cc4795f1f2c5b578",
