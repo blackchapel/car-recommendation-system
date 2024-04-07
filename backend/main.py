@@ -194,7 +194,7 @@ async def autocomplete_cars(name: str = Query(...)):
     return cars
 
 
-@app.post("/api/car/search-recommendation", tags=["Car"], response_model=list[Car])
+@app.get("/api/car/search-recommendation", tags=["Car"], response_model=list[Car])
 async def search_recommendation(index: str = Query(...)):
     data = pd.read_csv('data/final_car_data.csv')
     data.astype(str)
