@@ -22,3 +22,12 @@ class UserTokenResponse(BaseModel):
     ratings: list
     access_token: str
     token_type: str
+
+class UserRatingRequest(BaseModel):
+    index: int
+    rating: int
+
+class UserWOPass(BaseModel):
+    name: str
+    email: str
+    ratings: list
