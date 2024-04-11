@@ -79,7 +79,6 @@ async def recommendation(userPreference: CarRecommendRequest):
         'Price': [userPreference.price],
     }
     df = pd.DataFrame(data_user_preference)
-    # return df.iloc[0]
 
     with open('./data/kmeans_model.pkl', 'rb') as f:
         loaded_kmeans = pickle.load(f)
@@ -107,3 +106,4 @@ async def recommendation(userPreference: CarRecommendRequest):
 
     print(similiar_cars)
     print(f"User preference is closest to Cluster {closest_center_index}")
+    
