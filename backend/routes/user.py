@@ -32,7 +32,7 @@ async def user_rating(data: UserRatingRequest, current_user: dict = Depends(curr
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    new_rating = {"index": data.index, "rating": data.rating}
+    new_rating = {"index": data.index, "make_model": data.make_model, "rating": data.rating}
     user["ratings"].append(new_rating)
 
     user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings": user["ratings"]}})
