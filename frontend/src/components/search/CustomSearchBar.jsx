@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Autocomplete from "@mui/material/Autocomplete";
-import SearchContext from "../context/SearchContext";
+import SearchContext from "../../context/SearchContext";
 import { useNavigate } from "react-router-dom";
-import { getAutocomplete } from "../apis/cars";
+import { getAutocomplete } from "../../apis/cars";
 
 const CustomSearchBar = ({ width }) => {
   const {

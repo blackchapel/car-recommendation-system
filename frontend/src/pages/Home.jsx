@@ -1,13 +1,14 @@
 import React, { useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
-import CustomSearchBar from "../components/CustomSearchBar";
+import CustomSearchBar from "../components/search/CustomSearchBar";
 import SearchContext from "../context/SearchContext";
 
 const Home = () => {
   const theme = useTheme();
   const { carNames, setCarNames, searchValue, setSearchValue } =
     useContext(SearchContext);
+
   useEffect(() => {
     setCarNames([]);
   }, []);

@@ -27,3 +27,25 @@ export const deleteUser = async (token) => {
     throw error;
   }
 };
+
+export const giveRating = async (index, make_model, rating, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/${USER}/rating`,
+      {
+        index,
+        make_model,
+        rating,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

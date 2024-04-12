@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ResponsiveAppBar from "../components/layouts/common/ResponsiveAppBar";
 import { getUser, deleteUser } from "../apis/user";
 import { Card, Typography } from "@mui/material";
 import { CardContent } from "@mui/material";
@@ -21,6 +21,7 @@ const Account = () => {
       navigate("/auth/login");
       return;
     }
+
     const getUserData = async () => {
       try {
         const data = await getUser(user.access_token);

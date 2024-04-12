@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useMediaQuery } from "@mui/material";
-import ResultsCard from "../components/ResultsCard";
+import ResultsCard from "../components/search/ResultsCard.jsx";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import CustomSearchBar from "../components/CustomSearchBar.jsx";
+import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
 import { useParams } from "react-router-dom";
 import { getSimilarCars } from "../apis/cars";
 
 import similarCarsData from "../data/similarCars.json";
-import CarDetails from "../components/CarDetails.jsx";
+import CarDetails from "../components/search/CarDetails.jsx";
 
 const SearchResults = () => {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
