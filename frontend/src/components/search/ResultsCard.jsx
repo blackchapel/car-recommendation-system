@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import EnergySavingsLeafIcon from "@mui/icons-material/EnergySavingsLeaf";
 import Typography from "@mui/material/Typography";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -20,13 +20,13 @@ const Icon = (type) => {
   } else if (type === "EV") {
     return (
       <IconButton aria-label={type}>
-        <ElectricBoltIcon sx={{ color: "primary.main" }} />
+        <ElectricBoltIcon sx={{ color: "ev.main" }} />
       </IconButton>
     );
   } else {
     return (
       <IconButton aria-label={type}>
-        <EnergySavingsLeafIcon sx={{ color: "primary.main" }} />
+        <EnergySavingsLeafIcon sx={{ color: "hybrid.main" }} />
       </IconButton>
     );
   }
@@ -50,7 +50,7 @@ const ResultsCard = ({
         color: "#fff",
         boxShadow: 3,
         transition: "0.3s",
-        height: "60vh",
+        height: "65vh",
         "&:hover": {
           color: "#fff",
           boxShadow: 5,
@@ -79,7 +79,7 @@ const ResultsCard = ({
           component="div"
           sx={{
             fontFamily: "Montserrat",
-            fontWeight: 700,
+            fontWeight: 600,
             letterSpacing: "0.05rem",
           }}
         >
@@ -96,15 +96,34 @@ const ResultsCard = ({
         >
           {price}
         </Typography>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            margin: "20px 0 0 0",
+          }}
+        >
+          <Tooltip title={"Vehicle Type"} placement="top">
+            {Icon(atv_type)}
+          </Tooltip>
+          <Typography color="#f4f4f4">{atv_type}</Typography>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Tooltip title={"Vehicle Drive"} placement="top">
+            <IconButton aria-label={drive}>
+              <DirectionsCarIcon sx={{ color: "primary.main" }} />
+            </IconButton>
+          </Tooltip>
+          <Typography color="#f4f4f4">{drive}</Typography>
+        </div>
       </CardContent>
-      <CardActions>
-        <Tooltip title={atv_type} placement="top">
-          {Icon(atv_type)}
-        </Tooltip>
-        <Typography variant="subtitle2" color="#f4f4f4">
-          {drive}
-        </Typography>
-      </CardActions>
     </Card>
   );
 };

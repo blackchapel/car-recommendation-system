@@ -62,6 +62,12 @@ const theme = createTheme({
     background: {
       default: "#000",
     },
+    ev: {
+      main: "#59CBE8",
+    },
+    hybrid: {
+      main: "#3BFF4B",
+    },
   },
 });
 

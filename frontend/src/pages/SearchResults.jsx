@@ -76,7 +76,7 @@ const SearchResults = () => {
           mt: 1,
         }}
       />
-      <Grid container spacing={3} sx={{ mt: 1 }}>
+      <Grid container spacing={3} sx={{ mt: 2 }}>
         {similarCars.map((car, index) => (
           <Grid item xs={12} md={4} lg={4}>
             <ResultsCard
