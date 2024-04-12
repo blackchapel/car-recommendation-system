@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -106,8 +105,12 @@ export default function CarDetails() {
                 }}
               >
                 <Grid item>
-                  <Typography variant="subtitle2" color="#f4f4f4">
-                    Rate:
+                  <Typography
+                    variant="subtitle2"
+                    color="#f4f4f4"
+                    sx={{ mt: 0.3 }}
+                  >
+                    {`Rate: `} &nbsp;
                   </Typography>
                 </Grid>
                 <Grid item>

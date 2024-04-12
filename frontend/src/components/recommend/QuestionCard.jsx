@@ -28,8 +28,12 @@ export default function QuestionCard({
         justifyContent: "center",
         alignItems: "center",
         height: {
-          md: "65vh",
+          md: "80vh",
           sm: "90vh",
+        },
+        width: {
+          md: "60vw",
+          sm: "80vw",
         },
       }}
     >
@@ -59,6 +63,7 @@ export default function QuestionCard({
           height: "100%",
           textAlign: "center",
           color: "#fff",
+          width: "100%",
           px: {
             md: 10,
           },
@@ -85,17 +90,18 @@ export default function QuestionCard({
           {question.question}
         </Typography>
 
-        <Grid container spacing={1}>
+        <Grid container>
           {question.options.map((option, n) => (
             <Grid
               item
               xs={12}
-              md={6}
-              lg={4}
+              md={12}
+              lg={12}
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                mb: 2,
               }}
             >
               <Button
@@ -109,7 +115,7 @@ export default function QuestionCard({
                   m: 1,
                   width: "100%",
                   height: "100%",
-                  py: "20px",
+                  py: "10px",
                   px: "10px",
                 }}
                 onClick={() => {
