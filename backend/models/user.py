@@ -25,6 +25,7 @@ class UserTokenResponse(BaseModel):
 
 class UserRatingRequest(BaseModel):
     index: int
+    make_model: str
     rating: int
 
 class UserWOPass(BaseModel):
