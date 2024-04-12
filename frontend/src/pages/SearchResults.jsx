@@ -8,17 +8,22 @@ import SearchContext from "../context/SearchContext";
 import { useParams } from "react-router-dom";
 import { getSimilarCars } from "../apis/cars";
 
+import similarCarsData from "../data/similarCars.json";
+import CarDetails from "../components/CarDetails.jsx";
+
 const SearchResults = () => {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const searchQuery = useParams();
 
-  const [similarCars, setSimilarCars] = useState([]);
+  const [similarCars, setSimilarCars] = useState(similarCarsData);
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   useEffect(() => {
     async function getSimilarCarsFn() {
       const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
       response?.length > 1 && setSimilarCars(response);
+      !setSelectedCar && setSelectedCar(response[0]);
+      console.log(response);
     }
     getSimilarCarsFn();
   }, [selectedCar]);
@@ -49,6 +54,7 @@ const SearchResults = () => {
       }}
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
+      <CarDetails />
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {similarCars.map((car, index) => (
           <Grid item xs={12} md={4} lg={4}>
