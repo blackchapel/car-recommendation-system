@@ -32,9 +32,9 @@ function ResponsiveAppBar() {
 
   const settings = [
     {
-      name: "Profile",
+      name: "My Account",
       onClick: () => {
-        navigate("/user/profile");
+        navigate("/user/me");
         handleCloseNavMenu();
       },
     },

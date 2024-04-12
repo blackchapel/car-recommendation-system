@@ -11,7 +11,7 @@ import Signup from "./pages/Signup";
 import LayoutHome from "./components/layouts/LayoutHome";
 import SearchResults from "./pages/SearchResults";
 import SearchContext from "./context/SearchContext";
-import ProfilePage from "./pages/ProfilePage";
+import Account from "./pages/Account";
 import Recommend from "./pages/Recommend";
 
 const router = createBrowserRouter([
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     path: "/user",
     element: <Layout />,
     errorElement: <ErrorPage />,
-    children: [{ path: "/user/profile", element: <ProfilePage /> }],
+    children: [{ path: "/user/me", element: <Account /> }],
   },
   {
     path: "/auth",
