@@ -96,7 +96,7 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            AUTOMOBILE
+            CAR RECOMMENDATION
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -157,7 +157,7 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            AUTOMOBILE
+            CAR RECOMMENDATION
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
@@ -207,6 +207,7 @@ const ResponsiveAppBar = () => {
                 </Tooltip>
               ) : (
                 <Button
+                  variant="outlined"
                   href="/auth/login"
                   sx={{
                     fontFamily: "Montserrat",
