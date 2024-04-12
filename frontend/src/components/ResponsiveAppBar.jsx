@@ -14,7 +14,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function ResponsiveAppBar() {
+const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -38,7 +38,7 @@ function ResponsiveAppBar() {
       position="fixed"
       elevation={0}
       style={{
-        backgroundColor: "transparent",
+        backgroundColor: "#000",
         boxShadow: "none",
       }}
     >
@@ -125,12 +125,6 @@ function ResponsiveAppBar() {
                   display: { xs: "none", md: "inline-block" },
                 }}
               >
-                {/* <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ color: 'white', fontFamily: 'Montserrat'}}>
-                                {page}
-                            </Button> */}
                 {pages.map((page) => (
                   <Typography
                     key={page}
@@ -157,7 +151,6 @@ function ResponsiveAppBar() {
               </Box>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* <Avatar alt="Remy Sharp" size="small"/> */}
                   <AccountCircleOutlinedIcon
                     sx={{
                       color: "white",
@@ -193,5 +186,5 @@ function ResponsiveAppBar() {
       </Container>
     </AppBar>
   );
-}
+};
 export default ResponsiveAppBar;

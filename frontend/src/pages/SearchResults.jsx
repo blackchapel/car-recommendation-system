@@ -13,12 +13,11 @@ const SearchResults = () => {
   const searchQuery = useParams();
 
   const [similarCars, setSimilarCars] = useState([]);
-
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
+
   useEffect(() => {
     async function getSimilarCarsFn() {
-      const response = await getSimilarCars(selectedCar?.index);
-
+      const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
       response?.length > 1 && setSimilarCars(response);
     }
     getSimilarCarsFn();
