@@ -6,15 +6,23 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Autocomplete from "@mui/material/Autocomplete";
-import SearchContext from "../context/SearchContext";
+import SearchContext from "../../context/SearchContext";
 import { useNavigate } from "react-router-dom";
-import { getAutocomplete } from "../apis/cars";
-export default function CustomSearchBar({ width }) {
-  const { carNames, setCarNames, searchValue, setSearchValue, setSelectedCar } =
-    useContext(SearchContext);
+import { getAutocomplete } from "../../apis/car";
+
+const CustomSearchBar = ({ width }) => {
+  const navigate = useNavigate();
+  const {
+    carNames,
+    setCarNames,
+    searchValue,
+    setSearchValue,
+    selectedCar,
+    setSelectedCar,
+  } = useContext(SearchContext);
+
   const [textValue, setTextValue] = useState("");
   const [cars, setCars] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -24,6 +32,7 @@ export default function CustomSearchBar({ width }) {
     }
     fetchData();
   }, [textValue]);
+
   return (
     <Paper
       component="form"
@@ -44,7 +53,7 @@ export default function CustomSearchBar({ width }) {
         onChange={(event, newValue) => {
           setSearchValue(newValue);
           setSelectedCar(
-            cars.find((car) => `${car.make} ${car.model}` === newValue)
+            cars.find((car) => `${car?.make} ${car?.model}` === newValue)
           );
         }}
         renderInput={(params) => {
@@ -69,7 +78,7 @@ export default function CustomSearchBar({ width }) {
         sx={{ p: "10px" }}
         aria-label="search"
         onClick={() => {
-          navigate(`/search/${searchValue}`);
+          navigate(`/search/${selectedCar.index}`);
         }}
       >
         <SearchIcon />
@@ -80,4 +89,6 @@ export default function CustomSearchBar({ width }) {
       </IconButton>
     </Paper>
   );
-}
+};
+
+export default CustomSearchBar;

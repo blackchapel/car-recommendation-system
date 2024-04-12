@@ -1,16 +1,18 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import Layout from "./components/Layout";
-import LayoutAuth from "./components/LayoutAuth";
+import Layout from "./components/layouts/Layout";
+import LayoutAuth from "./components/layouts/LayoutAuth";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import LayoutHome from "./components/LayoutHome";
+import LayoutHome from "./components/layouts/LayoutHome";
 import SearchResults from "./pages/SearchResults";
 import SearchContext from "./context/SearchContext";
+import Account from "./pages/Account";
+import Recommend from "./pages/Recommend";
 
 const router = createBrowserRouter([
   {
@@ -20,10 +22,22 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <Home /> }],
   },
   {
+    path: "/recommend",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <Recommend /> }],
+  },
+  {
     path: "/search/:searchQuery",
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <SearchResults /> }],
+  },
+  {
+    path: "/user",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [{ path: "/user/me", element: <Account /> }],
   },
   {
     path: "/auth",
@@ -44,6 +58,15 @@ const theme = createTheme({
     },
     secondary: {
       main: "#c85b08",
+    },
+    background: {
+      default: "#000",
+    },
+    ev: {
+      main: "#59CBE8",
+    },
+    hybrid: {
+      main: "#3BFF4B",
     },
   },
 });

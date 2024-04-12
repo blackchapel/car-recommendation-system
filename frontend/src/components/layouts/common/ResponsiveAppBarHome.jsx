@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,14 +10,50 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Recommend",
+    link: "/recommend",
+  },
+];
 
-function ResponsiveAppBar() {
+const ResponsiveAppBarHome = () => {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const settings = [
+    {
+      name: "My Account",
+      onClick: () => {
+        navigate("/user/me");
+        handleCloseNavMenu();
+      },
+    },
+    {
+      name: "My Ratings",
+      onClick: () => {
+        navigate("/myratings");
+        handleCloseNavMenu();
+      },
+    },
+    {
+      name: "Logout",
+      onClick: () => {
+        localStorage.removeItem("user");
+        navigate("/");
+        handleCloseNavMenu();
+      },
+    },
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -59,7 +96,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            AUTOMOBILE
+            CAR RECOMMENDATION
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -91,9 +128,15 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((page, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(page.link);
+                  }}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -114,7 +157,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            AUTOMOBILE
+            CAR RECOMMENDATION
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
@@ -125,22 +168,19 @@ function ResponsiveAppBar() {
                   display: { xs: "none", md: "inline-block" },
                 }}
               >
-                {/* <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ color: 'white', fontFamily: 'Montserrat'}}>
-                                {page}
-                            </Button> */}
-                {pages.map((page) => (
+                {pages.map((page, index) => (
                   <Typography
-                    key={page}
-                    onClick={handleCloseNavMenu}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(page.link);
+                    }}
                     sx={{
                       color: "white",
                       display: "inline-block",
                       fontFamily: "Montserrat",
                       cursor: "pointer",
-                      mr: 2,
+                      mr: 3,
                       mt: 1,
                       transitionDuration: "0.3s",
                       "&:hover": {
@@ -151,20 +191,31 @@ function ResponsiveAppBar() {
                       },
                     }}
                   >
-                    {page.toUpperCase()}
+                    {page.name.toUpperCase()}
                   </Typography>
                 ))}
               </Box>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* <Avatar alt="Remy Sharp" size="small"/> */}
-                  <AccountCircleOutlinedIcon
-                    sx={{
-                      color: "white",
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
+              {!(localStorage.getItem("user") == null) ? (
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <AccountCircleOutlinedIcon
+                      sx={{
+                        color: "white",
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="outlined"
+                  href="/auth/login"
+                  sx={{
+                    fontFamily: "Montserrat",
+                  }}
+                >
+                  Login
+                </Button>
+              )}
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -181,9 +232,15 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                {settings.map((setting, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      setting.onClick();
+                      handleCloseUserMenu();
+                    }}
+                  >
+                    <Typography textAlign="center">{setting.name}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -193,5 +250,6 @@ function ResponsiveAppBar() {
       </Container>
     </AppBar>
   );
-}
-export default ResponsiveAppBar;
+};
+
+export default ResponsiveAppBarHome;

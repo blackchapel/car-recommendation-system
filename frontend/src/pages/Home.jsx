@@ -1,20 +1,16 @@
 import React, { useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@emotion/react";
-import carList from "../data/carList.json";
-import CustomSearchBar from "../components/CustomSearchBar";
+import CustomSearchBar from "../components/search/CustomSearchBar";
 import SearchContext from "../context/SearchContext";
-
-// const CARS = allCars.vehicles;
 
 const Home = () => {
   const theme = useTheme();
   const { carNames, setCarNames, searchValue, setSearchValue } =
     useContext(SearchContext);
+
   useEffect(() => {
-    const cars = JSON.parse(carList);
-    const uniqueNames = [...new Set(cars)];
-    setCarNames(uniqueNames);
+    setCarNames([]);
   }, []);
 
   return (
