@@ -8,9 +8,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Autocomplete from "@mui/material/Autocomplete";
 import SearchContext from "../../context/SearchContext";
 import { useNavigate } from "react-router-dom";
-import { getAutocomplete } from "../../apis/cars";
+import { getAutocomplete } from "../../apis/car";
 
 const CustomSearchBar = ({ width }) => {
+  const navigate = useNavigate();
   const {
     carNames,
     setCarNames,
@@ -19,9 +20,9 @@ const CustomSearchBar = ({ width }) => {
     selectedCar,
     setSelectedCar,
   } = useContext(SearchContext);
+
   const [textValue, setTextValue] = useState("");
   const [cars, setCars] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {

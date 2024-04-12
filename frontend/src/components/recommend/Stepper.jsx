@@ -5,12 +5,7 @@ import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
-export default function Stepper({
-  activeStep,
-  setActiveStep,
-  questions,
-  length,
-}) {
+const Stepper = ({ activeStep, setActiveStep }) => {
   const theme = useTheme();
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -47,4 +42,6 @@ export default function Stepper({
       }
     />
   );
-}
+};
+
+export default Stepper;

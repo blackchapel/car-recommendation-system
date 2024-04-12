@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSimilarCars } from "../apis/cars";
+import { getSimilarCars } from "../apis/car";
 
 import CarDetails from "../components/search/CarDetails.jsx";
 

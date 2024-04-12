@@ -11,13 +11,13 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
 const Icon = (type) => {
-  if (type == "Petrol" || type == "Diesel") {
+  if (type === "Petrol" || type === "Diesel") {
     return (
       <IconButton aria-label={type}>
         <LocalFireDepartmentIcon sx={{ color: "primary.main" }} />
       </IconButton>
     );
-  } else if (type == "EV") {
+  } else if (type === "EV") {
     return (
       <IconButton aria-label={type}>
         <ElectricBoltIcon sx={{ color: "primary.main" }} />
@@ -32,15 +32,7 @@ const Icon = (type) => {
   }
 };
 
-function capitalizeWords(str) {
-  return str
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-export default function ResultsCard({
+const ResultsCard = ({
   make,
   model,
   atv_type,
@@ -48,7 +40,7 @@ export default function ResultsCard({
   price,
   image,
   onClick,
-}) {
+}) => {
   const [imgUrl, setImgUrl] = useState(image);
 
   return (
@@ -115,4 +107,6 @@ export default function ResultsCard({
       </CardActions>
     </Card>
   );
-}
+};
+
+export default ResultsCard;

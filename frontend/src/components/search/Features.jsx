@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import SearchContext from "../../context/SearchContext";
 
-function createData(name, value) {
+const createData = (name, value) => {
   return {
     name: name
       .replace("Mpg", "MPG")
@@ -16,17 +16,17 @@ function createData(name, value) {
       .replace("Atv", "ATV"),
     value,
   };
-}
+};
 
-function capitalizeWords(str) {
+const capitalizeWords = (str) => {
   return str
     .toLowerCase()
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-}
+};
 
-export default function Features() {
+const Features = () => {
   const [rows, setRows] = React.useState([]);
   const { selectedCar } = useContext(SearchContext);
 
@@ -85,4 +85,6 @@ export default function Features() {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default Features;

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Stepper from "./Stepper";
 
-export default function QuestionCard({
+const QuestionCard = ({
   question,
   index,
   setIndex,
@@ -17,7 +17,7 @@ export default function QuestionCard({
   setAnswers,
   handleSubmit,
   answers,
-}) {
+}) => {
   return (
     <Card
       sx={{
@@ -143,4 +143,6 @@ export default function QuestionCard({
       </CardContent>
     </Card>
   );
-}
+};
+
+export default QuestionCard;

@@ -24,7 +24,7 @@ const pages = [
   },
 ];
 
-function ResponsiveAppBarHome() {
+const ResponsiveAppBarHome = () => {
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -249,5 +249,6 @@ function ResponsiveAppBarHome() {
       </Container>
     </AppBar>
   );
-}
+};
+
 export default ResponsiveAppBarHome;
