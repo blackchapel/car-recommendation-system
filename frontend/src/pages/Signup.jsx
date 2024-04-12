@@ -2,6 +2,7 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
+import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
@@ -15,13 +16,15 @@ import { signupPost } from "../apis/auth";
 const Signup = () => {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
       const response = await signupPost({
         name: data.get("name"),
-        email: data.get("email"),
+        email: data.get("username"),
         password: data.get("password"),
       });
       localStorage.setItem("user", JSON.stringify(response));
@@ -88,10 +91,10 @@ const Signup = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
               />
               <TextField
                 margin="normal"
@@ -103,14 +106,33 @@ const Signup = () => {
                 id="password"
                 autoComplete="current-password"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign up
-              </Button>
+
+              {isLoading ? (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  <CircularProgress
+                    sx={{
+                      color: "#fff",
+                    }}
+                    size={30}
+                    thickness={4}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign up
+                </Button>
+              )}
+
               <Grid container>
                 <Grid item xs></Grid>
                 <Grid item>

@@ -123,7 +123,7 @@ const Account = () => {
                     letterSpacing: "0.1rem",
                   }}
                 >
-                  Email
+                  Username
                 </Typography>
                 <Typography
                   variant="h6"
