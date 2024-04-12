@@ -26,6 +26,7 @@ const Account = () => {
       try {
         const data = await getUser(user.access_token);
         setUser(data);
+        data.access_token = user.access_token;
         localStorage.setItem("user", JSON.stringify(data));
         setIsLoading(false);
       } catch (error) {
@@ -37,7 +38,7 @@ const Account = () => {
 
   if (isLoading)
     return (
-      <div>
+      <div style={{ height: "100vh" }}>
         <ResponsiveAppBar />
         <div
           style={{
@@ -45,6 +46,7 @@ const Account = () => {
             justifyContent: "center",
             alignItems: "center",
             height: "auto",
+            height: "100%",
           }}
         >
           <img src={"/assets/car-loading.gif"} alt="Loading..." />
@@ -52,8 +54,7 @@ const Account = () => {
       </div>
     );
   return (
-    <div>
-      <ResponsiveAppBar />
+    <div style={{ minHeight: "100vh" }}>
       <div
         style={{
           display: "flex",
@@ -62,6 +63,8 @@ const Account = () => {
           flexDirection: "column",
           height: "100vh",
           backgroundColor: "black",
+          paddingBottom: 200,
+          height: "100%",
         }}
       >
         <Avatar
