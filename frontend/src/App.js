@@ -12,6 +12,7 @@ import LayoutHome from "./components/layouts/LayoutHome";
 import SearchResults from "./pages/SearchResults";
 import SearchContext from "./context/SearchContext";
 import ProfilePage from "./pages/ProfilePage";
+import Recommend from "./pages/Recommend";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,12 @@ const router = createBrowserRouter([
     element: <LayoutHome />,
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <Home /> }],
+  },
+  {
+    path: "/recommend",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <Recommend /> }],
   },
   {
     path: "/search/:searchQuery",
@@ -51,6 +58,9 @@ const theme = createTheme({
     },
     secondary: {
       main: "#c85b08",
+    },
+    background: {
+      default: "#000",
     },
   },
 });

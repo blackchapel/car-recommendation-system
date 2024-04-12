@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -47,6 +47,7 @@ export default function ResultsCard({
   drive,
   price,
   image,
+  onClick,
 }) {
   const [imgUrl, setImgUrl] = useState(image);
 
@@ -66,6 +67,7 @@ export default function ResultsCard({
           transform: "scale(1.01)",
         },
       }}
+      onClick={() => onClick()}
     >
       <CardMedia
         component={"img"}

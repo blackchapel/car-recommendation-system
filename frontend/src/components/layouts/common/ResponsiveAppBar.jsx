@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const pages = [
@@ -24,15 +25,16 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate();
 
   const settings = [
     {
       name: "Profile",
       onClick: () => {
-        navigate("/profile");
+        navigate("/user/profile");
         handleCloseNavMenu();
       },
     },
@@ -134,7 +136,7 @@ function ResponsiveAppBar() {
                     navigate(page.link);
                   }}
                 >
-                  <Typography textAlign="center">{page.link}</Typography>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -193,7 +195,7 @@ function ResponsiveAppBar() {
                   </Typography>
                 ))}
               </Box>
-              {JSON.parse(localStorage.getItem("user")) && (
+              {!(localStorage.getItem("user") == null) ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <AccountCircleOutlinedIcon
@@ -203,6 +205,15 @@ function ResponsiveAppBar() {
                     />
                   </IconButton>
                 </Tooltip>
+              ) : (
+                <Button
+                  href="/auth/login"
+                  sx={{
+                    fontFamily: "Montserrat",
+                  }}
+                >
+                  Login
+                </Button>
               )}
               <Menu
                 sx={{ mt: "45px" }}

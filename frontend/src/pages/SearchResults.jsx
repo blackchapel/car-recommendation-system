@@ -3,27 +3,28 @@ import { useMediaQuery } from "@mui/material";
 import ResultsCard from "../components/search/ResultsCard.jsx";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getSimilarCars } from "../apis/cars";
 
-import similarCarsData from "../data/similarCars.json";
 import CarDetails from "../components/search/CarDetails.jsx";
 
 const SearchResults = () => {
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const navigate = useNavigate();
   const searchQuery = useParams();
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
-  const [similarCars, setSimilarCars] = useState(similarCarsData);
+  const [similarCars, setSimilarCars] = useState([]);
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   useEffect(() => {
     async function getSimilarCarsFn() {
+      setSimilarCars([]);
       const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
       response?.length > 1 && setSimilarCars(response);
-      !setSelectedCar && setSelectedCar(response[0]);
-      console.log(response);
     }
     getSimilarCarsFn();
   }, [selectedCar]);
@@ -55,10 +56,34 @@ const SearchResults = () => {
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
       <CarDetails />
-      <Grid container spacing={3} sx={{ mt: 2 }}>
+      <Divider sx={{ width: "80vw", mt: 5 }} />
+      <Typography
+        variant="h4"
+        sx={{
+          color: "white",
+          mt: 5,
+          fontFamily: "Montserrat",
+          fontWeight: 700,
+        }}
+      >
+        Similar Cars
+      </Typography>
+      <Divider
+        sx={{
+          width: "8vw",
+          bgcolor: "primary.main",
+          borderBottomWidth: "3px",
+          mt: 1,
+        }}
+      />
+      <Grid container spacing={3} sx={{ mt: 1 }}>
         {similarCars.map((car, index) => (
           <Grid item xs={12} md={4} lg={4}>
             <ResultsCard
+              onClick={() => {
+                setSelectedCar(car);
+                navigate(`/search/${car.index}`);
+              }}
               key={index}
               make={car.make}
               model={car.model}
