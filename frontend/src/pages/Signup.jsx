@@ -18,19 +18,39 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = React.useState("");
+  const [values, setValues] = React.useState({
+    name: "",
+    username: "",
+    password: "",
+  });
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setIsLoading(true);
+      setError("");
       const data = new FormData(event.currentTarget);
-      const response = await signupPost({
-        name: data.get("name"),
-        email: data.get("username"),
-        password: data.get("password"),
-      });
-      localStorage.setItem("user", JSON.stringify(response));
-      navigate("/", { replace: true });
+      if (
+        data.get("username") < 1 ||
+        data.get("password") < 1 ||
+        data.get("name") < 1
+      ) {
+        setError("Please enter details!");
+        setIsLoading(false);
+        return;
+      } else {
+        const response = await signupPost({
+          name: data.get("name"),
+          email: data.get("username"),
+          password: data.get("password"),
+        });
+        localStorage.setItem("user", JSON.stringify(response));
+        navigate("/", { replace: true });
+      }
     } catch (error) {
+      setIsLoading(false);
+      setError(error.response.data.detail);
       console.error(error);
     }
   };
@@ -66,11 +86,19 @@ const Signup = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <LockOutlinedIcon color="secondary" />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
+            <Typography
+              component="h1"
+              variant="h5"
+              sx={{
+                fontFamily: "Montserrat",
+                color: "secondary.main",
+                fontWeight: 700,
+              }}
+            >
+              Sign Up
             </Typography>
             <Box
               component="form"
@@ -87,6 +115,15 @@ const Signup = () => {
                 name="name"
                 autoComplete="name"
                 autoFocus
+                color="secondary"
+                onChange={(e) =>
+                  setValues((prev) => {
+                    return { ...prev, name: e.target.value };
+                  })
+                }
+                error={
+                  values.name.length < 1 && error == "Please enter details!"
+                }
               />
               <TextField
                 margin="normal"
@@ -96,6 +133,15 @@ const Signup = () => {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                color="secondary"
+                onChange={(e) =>
+                  setValues((prev) => {
+                    return { ...prev, username: e.target.value };
+                  })
+                }
+                error={
+                  values.username.length < 1 && error == "Please enter details!"
+                }
               />
               <TextField
                 margin="normal"
@@ -106,7 +152,25 @@ const Signup = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                color="secondary"
+                onChange={(e) =>
+                  setValues((prev) => {
+                    return { ...prev, password: e.target.value };
+                  })
+                }
+                error={
+                  values.password.length < 1 && error == "Please enter details!"
+                }
               />
+
+              <Typography
+                color="error"
+                type="subtitle1"
+                align="center"
+                fontWeight="bold"
+              >
+                {error}
+              </Typography>
 
               {isLoading ? (
                 <Button
