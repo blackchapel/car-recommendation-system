@@ -2,10 +2,12 @@ from pydantic import BaseModel # type: ignore
 from typing import List, Dict
 
 class User(BaseModel):
+    sequence: int
     name: str
     email: str
     password: str
     ratings: list
+    ratings_copy: list
 
 class UserLoginRequest(BaseModel):
     email: str

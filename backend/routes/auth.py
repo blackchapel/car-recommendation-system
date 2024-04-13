@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status # type: ignore
 from datetime import timedelta
 from models.user import User, UserLoginRequest, UserSignupRequest,UserTokenResponse
 from services.auth import userAuth, accessToken, hashPassword
-from configs.database import user_collection
+from configs.database import user_collection, get_next_sequence
 import os
 
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
@@ -35,7 +35,7 @@ async def login(form_data: UserLoginRequest):
 @router.post("/signup", response_model=UserTokenResponse)
 async def signup(user: UserSignupRequest):
     user.password = hashPassword(user.password)
-    newUser: User = User(name=user.name, email=user.email, password=user.password, ratings=[])
+    newUser: User = User(sequence=(get_next_sequence()+1000),name=user.name, email=user.email, password=user.password, ratings=[], ratings_copy=[])
     user_collection.insert_one(newUser.dict())
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = accessToken(
