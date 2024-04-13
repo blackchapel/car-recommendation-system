@@ -8,7 +8,7 @@ from models.user import User
 router = APIRouter()
 
 
-@router.get("/database")
+@router.get("/database", response_model=dict)
 async def populate_database():
     cars = pd.read_csv('./data/final_car_data.csv')
     new_cars = []
@@ -84,4 +84,4 @@ async def populate_database():
     new_user["password"] = hashPassword(new_user["password"])
     user_collection.insert_one(new_user)
     
-    return "Database populated!"
+    return { "message": "Database populated!" }

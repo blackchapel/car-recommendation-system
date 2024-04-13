@@ -6,15 +6,23 @@ from services.auth import currentUser
 router = APIRouter()
 
 
-@router.get("", response_model=User)
+@router.get("", response_model=UserWOPass)
 async def get_user(current_user: dict = Depends(currentUser)):
-    return current_user
+    return {
+        "name": current_user["name"], 
+        "email": current_user["email"],
+        "ratings": current_user["ratings"]
+    }
 
 
-@router.put("", response_model=User)
+@router.put("", response_model=UserWOPass)
 async def update_user(user: User, current_user: dict = Depends(currentUser)):
     user_collection.update_one({"email": current_user['email']}, {"$set": user.dict()})
-    return user
+    return {
+        "name": user["name"], 
+        "email": user["email"],
+        "ratings": user["ratings"]
+    }
 
 
 @router.delete("", response_model=dict)
@@ -34,8 +42,9 @@ async def user_rating(data: UserRatingRequest, current_user: dict = Depends(curr
 
     new_rating = {"index": data.index, "make_model": data.make_model, "rating": data.rating}
     user["ratings"].append(new_rating)
+    user["rating_copy"].append(new_rating)
 
-    user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings": user["ratings"]}})
+    user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings": user["ratings"], "ratings_copy": user["rating_copy"]}})
 
     updated_user = user_collection.find_one({"_id": current_user["_id"]})
 

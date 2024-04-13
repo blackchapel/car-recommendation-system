@@ -6,6 +6,7 @@ class User(BaseModel):
     email: str
     password: str
     ratings: list
+    ratings_copy: list
 
 class UserLoginRequest(BaseModel):
     email: str

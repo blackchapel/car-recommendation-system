@@ -35,7 +35,7 @@ async def login(form_data: UserLoginRequest):
 @router.post("/signup", response_model=UserTokenResponse)
 async def signup(user: UserSignupRequest):
     user.password = hashPassword(user.password)
-    newUser: User = User(name=user.name, email=user.email, password=user.password, ratings=[])
+    newUser: User = User(name=user.name, email=user.email, password=user.password, ratings=[], ratings_copy=[])
     user_collection.insert_one(newUser.dict())
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = accessToken(
