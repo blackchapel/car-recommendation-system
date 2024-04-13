@@ -50,7 +50,7 @@ const ResultsCard = ({
         color: "#fff",
         boxShadow: 3,
         transition: "0.3s",
-        height: "65vh",
+        height: "70vh",
         "&:hover": {
           color: "#fff",
           boxShadow: 5,
