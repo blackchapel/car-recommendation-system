@@ -39,13 +39,6 @@ const ResponsiveAppBar = () => {
       },
     },
     {
-      name: "My Ratings",
-      onClick: () => {
-        navigate("/myratings");
-        handleCloseNavMenu();
-      },
-    },
-    {
       name: "Logout",
       onClick: () => {
         localStorage.removeItem("user");

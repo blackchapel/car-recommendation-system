@@ -51,11 +51,13 @@ export default function CarDetails({ car }) {
 
   const compareRating = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    user.ratings.forEach((rating) => {
-      if (rating.index === car.index) {
-        setRating(rating.rating);
-      }
-    });
+    if (user) {
+      user.ratings.forEach((rating) => {
+        if (rating.index === car.index) {
+          setRating(rating.rating);
+        }
+      });
+    }
   };
 
   useEffect(() => {
