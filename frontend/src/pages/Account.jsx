@@ -63,7 +63,7 @@ const Account = () => {
           flexDirection: "column",
           height: "100vh",
           backgroundColor: "black",
-          paddingBottom: 200,
+          paddingBottom: "50px",
           height: "100%",
         }}
       >

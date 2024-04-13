@@ -175,6 +175,10 @@ export default function CarDetails({ car }) {
         open={openAlert}
         autoHideDuration={6000}
         onClose={handleCloseAlert}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
       >
         <Alert
           onClose={handleCloseAlert}

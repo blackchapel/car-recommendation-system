@@ -41,10 +41,9 @@ const Ratings = () => {
           ),
         });
         setOpenAlert(true);
-        navigate("/");
-      } else if (
-        JSON.parse(localStorage.getItem("user"))?.ratings.length == 0
-      ) {
+      }
+
+      if (JSON.parse(localStorage.getItem("user"))?.ratings.length == 0) {
         setAlertProperties({
           message: "You have zero ratings",
           severity: "error",
@@ -55,7 +54,6 @@ const Ratings = () => {
           ),
         });
         setOpenAlert(true);
-        navigate("/");
       } else {
         const carsRes = await getCarsInUserRatings(
           JSON.parse(localStorage.getItem("user"))?.access_token
@@ -63,6 +61,7 @@ const Ratings = () => {
         const recommendedCarsRes = await getCarsMatrixFactorization(
           JSON.parse(localStorage.getItem("user"))?.access_token
         );
+        console.log(carsRes);
         setCars(carsRes);
         setRecommendedCars(recommendedCarsRes);
       }
@@ -78,6 +77,7 @@ const Ratings = () => {
       return;
     }
     setOpenAlert(false);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const Ratings = () => {
             padding: "20px",
             paddingTop: "50px",
             backgroundColor: "black",
-            paddingBottom: "200px",
+            paddingBottom: "50px",
           }}
         >
           <Typography
@@ -195,6 +195,10 @@ const Ratings = () => {
         open={openAlert}
         autoHideDuration={6000}
         onClose={handleCloseAlert}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
       >
         <Alert
           onClose={handleCloseAlert}

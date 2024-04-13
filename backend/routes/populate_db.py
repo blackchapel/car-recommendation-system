@@ -79,6 +79,43 @@ async def populate_database():
                 "make_model": "Audi R8 AWD",
                 "rating": 3
             }
+        ],
+        "ratings_copy":[
+            {
+                "index": 0,
+                "make_model": "Chevrolet Silverado 4WD",
+                "rating": 5
+            },
+            {
+                "index": 1,
+                "make_model": "Alfa Romeo Stelvio AWD",
+                "rating": 4
+            },
+            {
+                "index": 3,
+                "make_model": "Genesis G80 AWD",
+                "rating": 4
+            },
+            {
+                "index": 16,
+                "make_model": "BMW i5 eDrive40 Sedan (20 inch Wheels)",
+                "rating": 3
+            },
+            {
+                "index": 2,
+                "make_model": "BMW Z4 sDrive30i",
+                "rating": 3
+            },
+            {
+                "index": 1358,
+                "make_model": "Audi R8",
+                "rating": 4
+            },
+            {
+                "index": 1601,
+                "make_model": "Audi R8 AWD",
+                "rating": 3
+            }
         ]
     }
     new_user["password"] = hashPassword(new_user["password"])

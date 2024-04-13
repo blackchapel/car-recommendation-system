@@ -45,7 +45,7 @@ const RecommendResults = () => {
             padding: "20px",
             paddingTop: "50px",
             backgroundColor: "black",
-            paddingBottom: "200px",
+            paddingBottom: "50px",
           }}
         >
           <Typography
