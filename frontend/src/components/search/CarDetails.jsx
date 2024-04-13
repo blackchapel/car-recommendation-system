@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -48,6 +48,19 @@ export default function CarDetails({ car }) {
     }
     setOpenAlert(false);
   };
+
+  const compareRating = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    user.ratings.forEach((rating) => {
+      if (rating.index === car.index) {
+        setRating(rating.rating);
+      }
+    });
+  };
+
+  useEffect(() => {
+    compareRating();
+  }, []);
 
   return (
     <>
