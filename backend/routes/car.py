@@ -6,7 +6,8 @@ from gensim.models import Word2Vec # type: ignore
 from sklearn.metrics.pairwise import cosine_similarity # type: ignore
 from sklearn.metrics import pairwise_distances # type: ignore
 from models.car import Car, CarRecommendRequest
-from configs.database import car_collection 
+from configs.database import car_collection
+import joblib # type: ignore
 
 router = APIRouter()
 
@@ -88,10 +89,15 @@ async def recommendation_kmeans(userPreference: CarRecommendRequest):
             return np.mean(vectors, axis=0)
         else:
             return None
-    
+        
+    scaler = joblib.load('./data/minmax_scaler.pkl')
+    centroid_vectors = loaded_kmeans.cluster_centers_
     user_preference_vector = get_average_vector(df.iloc[0])
+    user_preference_vector = pd.DataFrame(user_preference_vector).T
+    user_preference_vector.columns = [f'feature_{i}' for i in range(len(user_preference_vector.columns))]
+    user_preference_vector = pd.DataFrame(scaler.transform(user_preference_vector), columns = user_preference_vector.columns)
 
-    distances = pairwise_distances([user_preference_vector], centroid_vectors, metric='euclidean')
+    distances = pairwise_distances(user_preference_vector, centroid_vectors, metric='euclidean')
     closest_center_index = np.argmin(distances)
 
     car_vectors_cluster_label = pd.read_csv('./data/car_vectors_cluster_label.csv')
@@ -99,13 +105,15 @@ async def recommendation_kmeans(userPreference: CarRecommendRequest):
     similiar_cars_vectors = car_vectors_cluster_label.loc[car_vectors_cluster_label['cluster_label'] == closest_center_index]
     car_data = similiar_cars_vectors.drop(columns=['Unnamed: 0', 'cluster_label'])
 
+    user_preference = user_preference_vector.values.squeeze()
+
     def calculate_similarity(vec1, vec2):
         return cosine_similarity([vec1], [vec2])[0][0]
-                                  
+
     car_similarities = {}
     for index, row in car_data.iterrows():
-        car_vector = row.tolist()
-        similarity = calculate_similarity(user_preference_vector, car_vector)
+        car_vector = row.values
+        similarity = calculate_similarity(user_preference, car_vector)
         car_similarities[index] = {'similarity': similarity}
 
     sorted_cars = sorted(car_similarities.items(), key=lambda x: x[1]['similarity'], reverse=True)
