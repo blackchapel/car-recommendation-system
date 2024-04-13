@@ -18,8 +18,8 @@ async def autocomplete_cars(name: str = Query(...)):
     return cars
 
 
-@router.get("/search-recommendation", response_model=list[Car])
-async def search_recommendation(index: str = Query(...)):
+@router.get("/recommend/word-embeddings", response_model=list[Car])
+async def recommendation_word_embeddings(index: str = Query(...)):
     data = pd.read_csv('./data/final_car_data.csv')
     data.astype(str)
     car_features_list = data.iloc[:, :].values.tolist()
@@ -62,8 +62,8 @@ async def search_recommendation(index: str = Query(...)):
     return cars
 
 
-@router.post("/recommend")
-async def recommendation(userPreference: CarRecommendRequest):
+@router.post("/recommend/kmeans", response_model=list[Car])
+async def recommendation_kmeans(userPreference: CarRecommendRequest):
     data_user_preference = {
         'City Mpg For Fuel Type1': [userPreference.city_mpg_for_fuel_type1],
         'Co2 Fuel Type1': [userPreference.co2_fuel_type1],
@@ -116,4 +116,3 @@ async def recommendation(userPreference: CarRecommendRequest):
         cars.append(car[0])
     
     return cars
-    
