@@ -22,6 +22,10 @@ const pages = [
     name: "Recommend",
     link: "/recommend",
   },
+  {
+    name: "Ratings",
+    link: "/ratings/me",
+  },
 ];
 
 const ResponsiveAppBar = () => {
@@ -35,13 +39,6 @@ const ResponsiveAppBar = () => {
       name: "My Account",
       onClick: () => {
         navigate("/user/me");
-        handleCloseNavMenu();
-      },
-    },
-    {
-      name: "My Ratings",
-      onClick: () => {
-        navigate("/myratings");
         handleCloseNavMenu();
       },
     },

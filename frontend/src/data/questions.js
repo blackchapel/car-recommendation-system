@@ -3,7 +3,7 @@ export const questions = [
     question: "How do you like your vehicle?",
     options: [
       {
-        key: "Station Wagen",
+        key: "Station Wagon",
         value: {
           vehicle_size_class: "Station Wagon",
         },
@@ -11,7 +11,7 @@ export const questions = [
       {
         key: "Pickup Trucks",
         value: {
-          vehicle_size_class: "Pickup Trucks",
+          vehicle_size_class: "Standard Pickup Trucks",
         },
       },
       {
@@ -40,25 +40,25 @@ export const questions = [
       {
         key: "Low",
         value: {
-          price: "30000",
+          price: "$30,000",
         },
       },
       {
         key: "Moderate",
         value: {
-          price: "70000",
+          price: "$70,000",
         },
       },
       {
         key: "Expensive",
         value: {
-          price: "200000",
+          price: "$200,000",
         },
       },
       {
         key: "Luxury",
         value: {
-          price: "500000",
+          price: "$500,000",
         },
       },
     ],

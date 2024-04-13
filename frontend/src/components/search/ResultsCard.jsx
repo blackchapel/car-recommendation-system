@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -50,7 +50,7 @@ const ResultsCard = ({
         color: "#fff",
         boxShadow: 3,
         transition: "0.3s",
-        height: "65vh",
+        height: "75vh",
         "&:hover": {
           color: "#fff",
           boxShadow: 5,

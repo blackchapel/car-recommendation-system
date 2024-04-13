@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useMediaQuery } from "@mui/material";
-import ResultsCard from "../components/search/ResultsCard.jsx";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { useParams, useNavigate } from "react-router-dom";
+
 import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
-import { useParams, useNavigate } from "react-router-dom";
-import { getSimilarCars } from "../apis/car";
-
+import ResultsCard from "../components/search/ResultsCard.jsx";
+import { getCarsWordEmbeddings } from "../apis/car";
 import CarDetails from "../components/search/CarDetails.jsx";
 
 const SearchResults = () => {
@@ -18,14 +18,21 @@ const SearchResults = () => {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const [similarCars, setSimilarCars] = useState([]);
+  const [car, setCar] = useState({});
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   useEffect(() => {
-    async function getSimilarCarsFn() {
+    const getSimilarCarsFn = async () => {
       setSimilarCars([]);
-      const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
-      response?.length > 1 && setSimilarCars(response);
-    }
+      const response = await getCarsWordEmbeddings(
+        parseInt(searchQuery.searchQuery)
+      );
+      if (response?.length > 1) {
+        setCar(response[0]);
+        response.shift();
+        setSimilarCars(response);
+      }
+    };
     getSimilarCarsFn();
   }, [selectedCar]);
 
@@ -52,10 +59,11 @@ const SearchResults = () => {
         padding: "20px",
         paddingTop: "70px",
         backgroundColor: "black",
+        paddingBottom: "200px",
       }}
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
-      <CarDetails />
+      <CarDetails car={car} />
       <Divider sx={{ width: "80vw", mt: 5 }} />
       <Typography
         variant="h4"

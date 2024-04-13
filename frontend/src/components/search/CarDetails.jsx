@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,13 +9,10 @@ import Rating from "@mui/material/Rating";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-import SearchContext from "../../context/SearchContext";
 import Features from "./Features";
 import { giveRating } from "../../apis/user";
 
-export default function CarDetails() {
-  const { selectedCar, setSelectedCar } = useContext(SearchContext);
-
+export default function CarDetails({ car }) {
   const {
     index,
     make,
@@ -36,7 +33,7 @@ export default function CarDetails() {
     base_model,
     image,
     price,
-  } = selectedCar;
+  } = car;
   const [rating, setRating] = useState(0);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertProperties, setAlertProperties] = useState({
@@ -51,6 +48,21 @@ export default function CarDetails() {
     }
     setOpenAlert(false);
   };
+
+  const compareRating = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      user.ratings.forEach((rating) => {
+        if (rating.index === car.index) {
+          setRating(rating.rating);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    compareRating();
+  }, []);
 
   return (
     <>
@@ -154,7 +166,7 @@ export default function CarDetails() {
                 </Grid>
               </Grid>
 
-              <Features />
+              <Features car={car} />
             </CardContent>
           </Grid>
         </Grid>
