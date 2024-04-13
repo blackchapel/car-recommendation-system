@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 
@@ -9,8 +9,8 @@ import { getRecommendedCars } from "../apis/car";
 export default function Recommend() {
   const navigate = useNavigate();
 
-  const [index, setIndex] = React.useState(0);
-  const [answers, setAnswers] = React.useState({
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState({
     vehicle_size_class: "",
     price: "",
     year: "",
@@ -18,7 +18,7 @@ export default function Recommend() {
     co2_fuel_type1: "",
     atv_type: "",
   });
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (ans) => {
     try {

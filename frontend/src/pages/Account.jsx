@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ResponsiveAppBar from "../components/layouts/common/ResponsiveAppBar";
-import { getUser, deleteUser } from "../apis/user";
 import { Card, Typography } from "@mui/material";
 import { CardContent } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import Icon from "@mui/material/Icon";
+
+import ResponsiveAppBar from "../components/layouts/common/ResponsiveAppBar";
+import { getUser, deleteUser } from "../apis/user";
 
 const Account = () => {
   const navigate = useNavigate();
