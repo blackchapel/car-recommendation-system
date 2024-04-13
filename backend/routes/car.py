@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query # type: ignore
+from fastapi import APIRouter, Query, Depends # type: ignore
 import pickle
 import pandas as pd # type: ignore
 import numpy as np # type: ignore
@@ -6,8 +6,17 @@ from gensim.models import Word2Vec # type: ignore
 from sklearn.metrics.pairwise import cosine_similarity # type: ignore
 from sklearn.metrics import pairwise_distances # type: ignore
 from models.car import Car, CarRecommendRequest
-from configs.database import car_collection
+from models.user import User
+from services.auth import currentUser
+from configs.database import car_collection, user_collection
 import joblib # type: ignore
+import tensorflow as tf # type: ignore
+from tensorflow import keras # type: ignore
+from keras.layers import Input, Embedding, Reshape, Dot, Concatenate, Dense, Dropout # type: ignore
+from keras.models import Model # type: ignore
+from keras.utils import plot_model # type: ignore
+from scipy.sparse import vstack # type: ignore
+from sklearn.metrics import mean_squared_error # type: ignore
 
 router = APIRouter()
 
@@ -124,3 +133,131 @@ async def recommendation_kmeans(userPreference: CarRecommendRequest):
         cars.append(car[0])
     
     return cars
+
+
+@router.get("/recommend/matrix-factorization")
+async def recommendation_matrix_factorization(current_user: User = Depends(currentUser)):
+    user = user_collection.find_one({"_id": current_user["_id"]})
+    df = pd.DataFrame(user["ratings_copy"], columns=["index", "make_model","rating"])
+    df.drop(columns=["make_model"], inplace=True)
+    df.insert(0, "userId", user["sequence"])
+    df = df.rename(columns={'index': 'carId'})
+
+    existing_df = pd.read_csv('./data/ratings.csv')
+    combined_df = pd.concat([existing_df, df], ignore_index=True)
+    combined_df.to_csv('./data/ratings.csv', index=False)
+
+    user["ratings_copy"] = []
+    user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings_copy": user["ratings_copy"]}})
+
+    car_ratings = pd.read_csv('./data/ratings.csv')
+    df_p = car_ratings.pivot_table(index='userId', columns='carId', values='rating')
+
+    df = car_ratings
+    user_ids = df["userId"].unique().tolist()
+    user2user_encoded = {x: i for i, x in enumerate(user_ids)}
+    userencoded2user = {i: x for i, x in enumerate(user_ids)}
+    car_ids = df["carId"].unique().tolist()
+    car2car_encoded = {x: i for i, x in enumerate(car_ids)}
+    car_encoded2car = {i: x for i, x in enumerate(car_ids)}
+    df["user"] = df["userId"].map(user2user_encoded)
+    df["car"] = df["carId"].map(car2car_encoded)
+
+    num_users = len(user2user_encoded)
+    num_cars = len(car_encoded2car)
+
+    df = df.sample(frac=1, random_state=42)
+    x = df[["user", "car"]].values
+    y = df["rating"].apply(lambda x: (x - 0.5) / (4.5)).values
+
+    train_indices = int(0.9 * df.shape[0])
+
+    x_train, x_val, x_test, y_train, y_val, y_test = (
+        x[:train_indices],
+        x[train_indices:-1000],
+        x[-1000:],
+        y[:train_indices],
+        y[train_indices:-1000],
+        y[-1000:],
+    )
+
+    embedding_size= 50
+
+    user_id_input = Input(shape=[1], name='user')
+    car_id_input = Input(shape=[1], name='car')
+
+    user_embedding = Embedding(output_dim=embedding_size,
+                            input_dim=num_users,
+                            input_length=1,
+                            embeddings_initializer="he_normal",
+                            embeddings_regularizer=keras.regularizers.l2(1e-6),
+                            name='user_embedding')(user_id_input)
+    car_embedding = Embedding(output_dim=embedding_size,
+                                input_dim=num_cars,
+                                input_length=1,
+                                embeddings_initializer="he_normal",
+                                embeddings_regularizer=keras.regularizers.l2(1e-6),
+                                name='car_embedding')(car_id_input)
+
+    user_vector = Reshape([embedding_size])(user_embedding)
+    car_vector = Reshape([embedding_size])(car_embedding)
+
+    concat = Concatenate()([user_vector, car_vector])
+    dense1 = Dense(256)(concat)
+    dense = Dropout(0.2)(dense1)
+    y = Dense(1, activation="sigmoid")(dense)
+
+    model = Model(inputs=[user_id_input, car_id_input], outputs=y)
+    model.compile(loss='mse',  optimizer = 'adam')
+
+    history = model.fit(
+                x = [x_train[:,0],x_train[:,1]],
+                y = y_train,
+                batch_size=256,
+                epochs=4,
+                validation_data = ([x_val[:,0], x_val[:,1]], y_val),
+            )
+
+    y_pred = model.predict([x_test[:,0], x_test[:,1]])
+    y_true =  y_test
+    rmse = np.sqrt(mean_squared_error(y_pred=y_pred, y_true=y_true))
+    p , a = (model.predict([x_test[:15,0], x_test[:15,1]]) , y_test[:15])
+
+    car_df = pd.read_csv('./data/final_car_data.csv')
+    car_df['carId'] = car_df.index
+
+    cars = []
+
+    def get_recommendations(user_id):
+        user_id = int()
+        cars_watched_by_user = df[df.userId == user_id]
+        cars_not_watched = car_df[
+            ~car_df["carId"].isin(cars_watched_by_user.carId.values)]["carId"]
+        cars_not_watched = list(
+            set(cars_not_watched).intersection(set(car2car_encoded.keys()))
+        )
+        cars_not_watched = [[car2car_encoded.get(x)] for x in cars_not_watched]
+        user_encoder = user2user_encoded.get(user_id)
+        user_car_array = np.hstack(
+            ([[user_id]] * len(cars_not_watched), cars_not_watched)
+        )
+
+        ratings = model.predict([user_car_array[:,0], user_car_array[:,1]]).flatten()
+
+        top_ratings_indices = ratings.argsort()[-9:][::-1]
+        recommended_car_ids = [
+            car_encoded2car.get(cars_not_watched[x][0]) for x in top_ratings_indices
+        ]
+
+        recommended_cars = car_df[car_df["carId"].isin(recommended_car_ids)]
+        for row in recommended_cars.itertuples():
+            cars.append(row.Index)
+
+    get_recommendations(user["sequence"])
+
+    cars2 = []
+    for i in cars:
+        car: Car = car_collection.find({"index": i}, {"_id": 0, "index": 1, "make": 1, "model": 1, "make_model": 1, "city_mpg_for_fuel_type1": 1, "co2_fuel_type1": 1, "cylinders": 1, "drive": 1, "annual_fuel_cost_for_fuel_type1": 1, "fuel_type": 1, "id": 1, "transmission": 1, "vehicle_size_class": 1, "year": 1, "atv_type": 1, "electric_motor": 1, "base_model": 1, "image": 1, "price": 1})
+        cars2.append(car[0])
+
+    return cars2

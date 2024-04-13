@@ -42,9 +42,9 @@ async def user_rating(data: UserRatingRequest, current_user: dict = Depends(curr
 
     new_rating = {"index": data.index, "make_model": data.make_model, "rating": data.rating}
     user["ratings"].append(new_rating)
-    user["rating_copy"].append(new_rating)
+    user["ratings_copy"].append(new_rating)
 
-    user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings": user["ratings"], "ratings_copy": user["rating_copy"]}})
+    user_collection.update_one({"_id": user["_id"]}, {"$set": {"ratings": user["ratings"], "ratings_copy": user["ratings_copy"]}})
 
     updated_user = user_collection.find_one({"_id": current_user["_id"]})
 

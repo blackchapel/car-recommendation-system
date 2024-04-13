@@ -9,3 +9,7 @@ db = client["jtp"]
 
 user_collection = db["users"]
 car_collection = db["cars"]
+
+def get_next_sequence():
+    users = list(user_collection.find())
+    return len(users)
