@@ -3,8 +3,8 @@ import axios from "axios";
 import {
   API_URL,
   CAR_AUTOCOMPLETE,
-  CAR_RECOMMEND,
-  CAR_SIMILAR,
+  CAR_RECOMMEND_KMEANS,
+  CAR_RECOMMEND_WE,
 } from "../utils/constants";
 
 export const getAutocomplete = async (searchValue) => {
@@ -20,7 +20,7 @@ export const getAutocomplete = async (searchValue) => {
 
 export const getSimilarCars = async (index) => {
   try {
-    const response = await axios.get(`${API_URL}/${CAR_SIMILAR}${index}`);
+    const response = await axios.get(`${API_URL}/${CAR_RECOMMEND_WE}${index}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -29,7 +29,10 @@ export const getSimilarCars = async (index) => {
 
 export const getRecommendedCars = async (data) => {
   try {
-    const response = await axios.post(`${API_URL}/${CAR_RECOMMEND}`, data);
+    const response = await axios.post(
+      `${API_URL}/${CAR_RECOMMEND_KMEANS}`,
+      data
+    );
     return response.data;
   } catch (error) {
     console.error(error);
