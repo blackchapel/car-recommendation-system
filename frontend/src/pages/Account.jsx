@@ -40,7 +40,6 @@ const Account = () => {
   if (isLoading)
     return (
       <div style={{ height: "100vh" }}>
-        <ResponsiveAppBar />
         <div
           style={{
             display: "flex",

@@ -22,6 +22,10 @@ const pages = [
     name: "Recommend",
     link: "/recommend",
   },
+  {
+    name: "Ratings",
+    link: "/ratings/me",
+  },
 ];
 
 const ResponsiveAppBar = () => {

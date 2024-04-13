@@ -9,7 +9,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
 import ResultsCard from "../components/search/ResultsCard.jsx";
-import { getSimilarCars } from "../apis/car";
+import { getCarsWordEmbeddings } from "../apis/car";
 import CarDetails from "../components/search/CarDetails.jsx";
 
 const SearchResults = () => {
@@ -24,7 +24,9 @@ const SearchResults = () => {
   useEffect(() => {
     const getSimilarCarsFn = async () => {
       setSimilarCars([]);
-      const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
+      const response = await getCarsWordEmbeddings(
+        parseInt(searchQuery.searchQuery)
+      );
       if (response?.length > 1) {
         setCar(response[0]);
         response.shift();

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import QuestionCard from "../components/recommend/QuestionCard";
 import { questions } from "../data/questions";
-import { getRecommendedCars } from "../apis/car";
+import { getCarsKMeans } from "../apis/car";
 
 export default function Recommend() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Recommend() {
   const handleSubmit = async (ans) => {
     try {
       setIsLoading(true);
-      const response = await getRecommendedCars(ans);
+      const response = await getCarsKMeans(ans);
       localStorage.setItem("recommended_cars", JSON.stringify(response));
       setIsLoading(false);
       navigate("/recommend/results");
