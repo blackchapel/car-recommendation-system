@@ -13,6 +13,7 @@ import SearchResults from "./pages/SearchResults";
 import SearchContext from "./context/SearchContext";
 import Account from "./pages/Account";
 import Recommend from "./pages/Recommend";
+import RecommendResults from "./pages/RecommendResults";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,12 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [{ index: true, element: <SearchResults /> }],
+  },
+  {
+    path: "/recommend/results",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <RecommendResults /> }],
   },
   {
     path: "/user",

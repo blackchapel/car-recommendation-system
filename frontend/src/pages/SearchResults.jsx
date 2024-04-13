@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useMediaQuery } from "@mui/material";
-import ResultsCard from "../components/search/ResultsCard.jsx";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { useParams, useNavigate } from "react-router-dom";
+
 import CustomSearchBar from "../components/search/CustomSearchBar.jsx";
 import SearchContext from "../context/SearchContext";
-import { useParams, useNavigate } from "react-router-dom";
+import ResultsCard from "../components/search/ResultsCard.jsx";
 import { getSimilarCars } from "../apis/car";
-
 import CarDetails from "../components/search/CarDetails.jsx";
 
 const SearchResults = () => {
@@ -21,11 +21,11 @@ const SearchResults = () => {
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   useEffect(() => {
-    async function getSimilarCarsFn() {
+    const getSimilarCarsFn = async () => {
       setSimilarCars([]);
       const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
       response?.length > 1 && setSimilarCars(response);
-    }
+    };
     getSimilarCarsFn();
   }, [selectedCar]);
 
