@@ -52,6 +52,7 @@ const SearchResults = () => {
         padding: "20px",
         paddingTop: "70px",
         backgroundColor: "black",
+        paddingBottom: "200px",
       }}
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
