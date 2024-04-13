@@ -1,3 +1,4 @@
+import React from "react";
 import React, { useEffect, useContext, useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -12,42 +13,23 @@ import ResultsCard from "../components/search/ResultsCard.jsx";
 import { getSimilarCars } from "../apis/car";
 import CarDetails from "../components/search/CarDetails.jsx";
 
-const SearchResults = () => {
+const Ratings = () => {
   const navigate = useNavigate();
   const searchQuery = useParams();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const [similarCars, setSimilarCars] = useState([]);
-  const [car, setCar] = useState({});
   const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   useEffect(() => {
     const getSimilarCarsFn = async () => {
       setSimilarCars([]);
       const response = await getSimilarCars(parseInt(searchQuery.searchQuery));
-      if (response?.length > 1) {
-        setCar(response[0]);
-        response.shift();
-        setSimilarCars(response);
-      }
+      response?.length > 1 && setSimilarCars(response);
     };
     getSimilarCarsFn();
   }, [selectedCar]);
-
-  return similarCars && similarCars.length === 0 ? (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        backgroundColor: "black",
-        height: "100vh",
-      }}
-    >
-      <img src="/assets/car-loading.gif" alt="loading" />
-    </Box>
-  ) : (
+  return (
     <Box
       sx={{
         display: "flex",
@@ -61,7 +43,7 @@ const SearchResults = () => {
       }}
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
-      <CarDetails car={car} />
+      <CarDetails car={similarCars[0]} />
       <Divider sx={{ width: "80vw", mt: 5 }} />
       <Typography
         variant="h4"
@@ -105,4 +87,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default Ratings;
