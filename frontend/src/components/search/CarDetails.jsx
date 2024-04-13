@@ -9,13 +9,10 @@ import Rating from "@mui/material/Rating";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-import SearchContext from "../../context/SearchContext";
 import Features from "./Features";
 import { giveRating } from "../../apis/user";
 
-export default function CarDetails() {
-  const { selectedCar, setSelectedCar } = useContext(SearchContext);
-
+export default function CarDetails({ car }) {
   const {
     index,
     make,
@@ -36,7 +33,7 @@ export default function CarDetails() {
     base_model,
     image,
     price,
-  } = selectedCar;
+  } = car;
   const [rating, setRating] = useState(0);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertProperties, setAlertProperties] = useState({
@@ -154,7 +151,7 @@ export default function CarDetails() {
                 </Grid>
               </Grid>
 
-              <Features />
+              <Features car={car} />
             </CardContent>
           </Grid>
         </Grid>

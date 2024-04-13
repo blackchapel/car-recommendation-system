@@ -6,8 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import SearchContext from "../../context/SearchContext";
-
 const createData = (name, value) => {
   return {
     name: name
@@ -27,9 +25,9 @@ const capitalizeWords = (str) => {
     .join(" ");
 };
 
-const Features = () => {
+const Features = ({ car }) => {
   const [rows, setRows] = React.useState([]);
-  const { selectedCar } = useContext(SearchContext);
+  const selectedCar = car;
 
   useEffect(() => {
     if (selectedCar) {

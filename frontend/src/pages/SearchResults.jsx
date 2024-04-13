@@ -56,7 +56,7 @@ const SearchResults = () => {
       }}
     >
       <CustomSearchBar width={isSmallScreen ? "90%" : "60%"} />
-      <CarDetails />
+      <CarDetails car={similarCars[0]} />
       <Divider sx={{ width: "80vw", mt: 5 }} />
       <Typography
         variant="h4"
