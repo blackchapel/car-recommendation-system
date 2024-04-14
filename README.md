@@ -18,6 +18,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 - [API Documentation](#api-documentation)
 - [Working of Recommendation System](#working-of-recommendation-system)
 - [Screenshots](#screenshots)
+- [Deployed Links](#deployed-links)
 - [Tech Stacks](#tech-stacks)
 - [References](#references)
 
@@ -160,7 +161,7 @@ The recommendation system operates through a multi-step process to provide perso
 
 ![Image Alt text](/assets/flowchart3.png "Working Flowchart")
 
-For detailed implementation and code, refer to the ipynb [file]() available in the repository. The code is also accessible [here](https://colab.research.google.com/drive/1B4meFMea1BGODBv0rnvefZTIoBzMsigG?usp=sharing).
+For detailed implementation and code, refer to the ipynb [file](https://github.com/blackchapel/car-recommendation-system/blob/main/backend/ml/models.ipynb) available in the repository. The code is also accessible [here](https://colab.research.google.com/drive/1TFqACz4WgLerQOL3mYGVlSD2LlttTR5y?usp=sharing).
 
 ## Screenshots
 
@@ -184,6 +185,15 @@ Recommended Cars based on questionnaire -
 
 My Profile -
 ![Image Alt text](/assets/my-profile.png "My Profile")
+
+## Deployed Links
+
+The application is hosted on the following links, if unable to run locally.
+
+- **Frontend:** https://car-recommendation.vercel.app/
+- **Backend:** https://car-recommendation-backend.onrender.com/api
+
+**NOTE:** Recommend to run the application locally. Above website may be slow since the application is hosted on free tier.
 
 ## Tech Stacks
 

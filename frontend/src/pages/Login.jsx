@@ -34,7 +34,6 @@ const Login = () => {
       const data = new FormData(event.currentTarget);
       if (data.get("username") < 1 || data.get("password") < 1) {
         setError("Please enter credentials!");
-        return;
       } else {
         const response = await loginPost({
           email: data.get("username"),

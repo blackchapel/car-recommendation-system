@@ -37,8 +37,6 @@ const Signup = () => {
         data.get("name") < 1
       ) {
         setError("Please enter details!");
-        setIsLoading(false);
-        return;
       } else {
         const response = await signupPost({
           name: data.get("name"),
@@ -48,6 +46,7 @@ const Signup = () => {
         localStorage.setItem("user", JSON.stringify(response));
         navigate("/", { replace: true });
       }
+      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       if (error?.response) {
