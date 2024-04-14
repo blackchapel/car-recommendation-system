@@ -34,7 +34,6 @@ const Login = () => {
       const data = new FormData(event.currentTarget);
       if (data.get("username") < 1 || data.get("password") < 1) {
         setError("Please enter credentials!");
-        setIsLoading(false);
         return;
       } else {
         const response = await loginPost({
@@ -42,12 +41,16 @@ const Login = () => {
           password: data.get("password"),
         });
         localStorage.setItem("user", JSON.stringify(response));
-        setIsLoading(false);
         navigate("/", { replace: true });
       }
+      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      setError(error.response.data.detail);
+      if (error?.response) {
+        setError(error?.response?.data.detail);
+      } else {
+        setError("Something went wrong");
+      }
       console.error(error);
     }
   };

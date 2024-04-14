@@ -50,7 +50,11 @@ const Signup = () => {
       }
     } catch (error) {
       setIsLoading(false);
-      setError(error.response.data.detail);
+      if (error?.response) {
+        setError(error?.response?.data.detail);
+      } else {
+        setError("Something went wrong");
+      }
       console.error(error);
     }
   };
