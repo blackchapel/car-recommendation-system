@@ -18,7 +18,7 @@ gensim==4.3.2
 google-pasta==0.2.0
 grpcio==1.62.1
 h11==0.14.0
-h5py==3.11.0
+h5py==3.10.0
 httptools==0.6.1
 idna==3.6
 importlib_metadata==7.1.0

@@ -1,17 +1,28 @@
 from fastapi import APIRouter, HTTPException, Depends # type: ignore
-from models.user import User, UserRatingRequest, UserWOPass
+from datetime import timedelta
+from models.user import User, UserRatingRequest, UserWOPass, UserTokenResponse
 from configs.database import user_collection
 from services.auth import currentUser
+from services.auth import accessToken
+import os
+
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 router = APIRouter()
 
 
-@router.get("", response_model=UserWOPass)
+@router.get("", response_model=UserTokenResponse)
 async def get_user(current_user: dict = Depends(currentUser)):
-    return {
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = accessToken(
+        data={"sub": current_user["email"]}, expires_delta=access_token_expires
+    )
+    return { 
         "name": current_user["name"], 
         "email": current_user["email"],
-        "ratings": current_user["ratings"]
+        "ratings": current_user["ratings"],
+        "access_token": access_token, 
+        "token_type": "bearer"
     }
 
 
