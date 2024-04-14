@@ -30,8 +30,6 @@ services:
       context: ./frontend
       dockerfile: ./Dockerfile
     command: npm start
-    environment:
-      - BACKEND_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' backend)
     ports:
       - "3000:3000"
     volumes:
