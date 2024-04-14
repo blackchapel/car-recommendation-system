@@ -1,16 +1,14 @@
 FROM node:21
 
-RUN mkdir /app
+RUN mkdir /appfrontend
 
-WORKDIR /app
+WORKDIR /appfrontend
 
 COPY package.json .
 
-ARG NODE_ENV
-
 RUN npm install
 
-COPY . /app
+COPY . /appfrontend
 
 EXPOSE 3000
 

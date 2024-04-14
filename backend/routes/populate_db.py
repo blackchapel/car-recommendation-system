@@ -40,6 +40,7 @@ async def populate_database():
     car_collection.insert_many(new_cars)
 
     new_user: User = {
+        "sequence": "1000",
         "name": "John Doe",
         "email": "johndoe",
         "password": "pass@123",
