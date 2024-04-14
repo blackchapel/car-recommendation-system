@@ -25,7 +25,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
 ### A. Launch Project
 
-1. **Clone the repository to local machine:**
+1. **Open your terminal, and clone the repository to local machine:**
 
    ```bash
    git clone https://github.com/blackchapel/car-recommendation-system.git
@@ -39,7 +39,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
 3. **Create `.env` file in backend folder and copy contents from [`.env-example`](https://github.com/blackchapel/car-recommendation-system/blob/main/backend/.env-example) to this file.**
 
-   - There are 4 variables in this file. 3 are filled in the `.env-example` file.
+   - There are 4 variables in this file. 3 are pre-filled in the `.env-example` file.
    - To generate the `SECRET_KEY`, run following command on your terminal
 
      ```bash
@@ -48,24 +48,81 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
    - Paste the generated string as the value of `SECRET_KEY` variable
 
-4. **Navigate to root folder:**
+**NOTE:** Project can be run locally by following either Step 4 or Step 5.
 
-   ```bash
-   cd ..
-   ```
+1. **To run project with docker -**
 
    :warning: Prerequisite - [Docker](https://docs.docker.com/get-docker/) must be installed
 
-5. **In the root directory of the project, run**
+   1. **Navigate to root folder (if not already in it):**
 
-   ```bash
-   docker compose up
-   ```
+      ```bash
+      cd ..
+      ```
 
-6. **Once the container is running -**
+   2. **In the root directory of the project, run**
+      ```bash
+      docker -compose up
+      ```
+
+2. **To run project without docker -**
+
+   1. In the `.env` file created above, replace the value of `MONGODB_URI` variable with the URI of your own MongoDB database
+
+   2. **Navigate to backend folder (if not already in it):**
+
+      ```bash
+      cd backend
+      ```
+
+   3. **Run the following commands in this terminal:**
+
+      :warning: Prerequisite - [Python3](https://www.python.org/downloads/) version must be 3.9
+
+      ```python
+      python3 -m venv env
+      ```
+
+      ```python
+      source env/bin/activate
+      ```
+
+      ```python
+      pip install -r requirements.txt
+      ```
+
+      ```python
+      uvicorn main:app
+      ```
+
+      Backend server is now running in this terminal
+
+   4. **Open a new terminal**
+
+   5. **Navigate to frontend folder in this new terminal:**
+
+      ```bash
+      cd frontend
+      ```
+
+   6. **Run the following commands in this terminal:**
+
+      ```bash
+      npm install <or> yarn install
+      ```
+
+      ```bash
+      npm start <or> yarn start
+      ```
+
+      Frontend server is now running in this terminal
+
+3. **Once the docker container/local servers are running -**
    - Frontend will be available on [localhost:3000](http://localhost:3000)
    - Backend will be available on [localhost:80](http://localhost:80)
-   - Database will be available through `mongodb://mongodb:27017/car-recommendation`
+   - Database will be available
+     - with Docker: through `mongodb://localhost:27017/`
+     - without Docker: on URI entered in step 5.1
 
 ### B. Populate the local database
 
