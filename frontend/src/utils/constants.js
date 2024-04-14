@@ -1,4 +1,4 @@
-export const API_URL = `http://localhost:80`;
+export const API_URL = `http://localhost:8000`;
 export const SIGNUP = "api/auth/signup";
 export const LOGIN = "api/auth/login";
 export const USER = "api/user";

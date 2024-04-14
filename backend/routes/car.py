@@ -254,7 +254,7 @@ async def recommendation_matrix_factorization(current_user: User = Depends(curre
 
         ratings = model.predict([user_car_array[:,0], user_car_array[:,1]]).flatten()
 
-        top_ratings_indices = ratings.argsort()[-9:][::-1]
+        top_ratings_indices = ratings.argsort()[-6:][::-1]
         recommended_car_ids = [
             car_encoded2car.get(cars_not_watched[x][0]) for x in top_ratings_indices
         ]

@@ -94,6 +94,14 @@ const Ratings = () => {
           >
             No Ratings
           </Typography>
+          <Divider
+            sx={{
+              width: "8vw",
+              bgcolor: "primary.main",
+              borderBottomWidth: "3px",
+              mt: 1,
+            }}
+          />
         </Box>
       ) : (
         <Box
@@ -156,7 +164,7 @@ const Ratings = () => {
               fontWeight: 700,
             }}
           >
-            Similiar Cars
+            Similar Cars
           </Typography>
           <Divider
             sx={{

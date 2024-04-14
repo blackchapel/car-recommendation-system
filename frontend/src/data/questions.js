@@ -3,9 +3,9 @@ export const questions = [
     question: "How do you like your vehicle?",
     options: [
       {
-        key: "Station Wagon",
+        key: "Sports Car",
         value: {
-          vehicle_size_class: "Station Wagon",
+          vehicle_size_class: "Two Seaters",
         },
       },
       {
