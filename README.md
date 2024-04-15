@@ -120,14 +120,14 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
 3. **Once the docker container/local servers are running -**
    - Frontend will be available on [localhost:3000](http://localhost:3000)
-   - Backend will be available on [localhost:80](http://localhost:80)
+   - Backend will be available on [localhost:8000](http://localhost:8000)
    - Database will be available
      - with Docker: through `mongodb://localhost:27017/`
      - without Docker: on URI entered in step 5.1
 
 ### B. Populate the local database
 
-1. Once the project is running, open your web browser and enter the following URL: [Population link](http://localhost:80/api/populate/database)
+1. Once the project is running, open your web browser and enter the following URL: [Population link](http://localhost:8000/api/populate/database)
 2. Hit the API endpoint
 3. The local database will now be populated with the required data
 
@@ -141,7 +141,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 The documentation for APIs created for this application using FastAPI will be available at the following:
 
 - **Online:** [car-recommendation-backend.onrender.com/docs](https://car-recommendation-backend.onrender.com/docs)
-- **Local:** [localhost/docs](http://localhost:80/docs) when running locally
+- **Local:** [localhost:8000/docs](http://localhost:8000/docs) when running locally
 
 ## Working of Recommendation System
 
