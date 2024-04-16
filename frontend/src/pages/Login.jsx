@@ -66,20 +66,19 @@ const Login = () => {
           alignItems: "center",
         }}
       >
-        <CssBaseline />
         <Grid
           item
           sm={12}
           md={4}
           elevation={5}
-          component={Paper}
           square
           sx={{ borderRadius: "20px" }}
         >
+          <CssBaseline />
           <Box
             sx={{
-              my: 8,
-              mx: 8,
+              my: 6,
+              mx: 6,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
