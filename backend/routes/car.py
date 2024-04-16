@@ -21,6 +21,7 @@ from sklearn.metrics import mean_squared_error # type: ignore
 router = APIRouter()
 
 
+# API Endpoint to autocomplete user queries about cars
 @router.get("/autocomplete/", response_model=list[Car])
 async def autocomplete_cars(name: str = Query(...)):
     regex = {"$regex": f".*{name}.*", "$options": "i"}
@@ -28,6 +29,7 @@ async def autocomplete_cars(name: str = Query(...)):
     return cars
 
 
+# API Endpoint to fetch details of all the cars that the user has rated
 @router.get("/car-by-user-rating", response_model=list[Car])
 async def car_by__user_rating(current_user: User = Depends(currentUser)):
     cars = []
@@ -38,6 +40,7 @@ async def car_by__user_rating(current_user: User = Depends(currentUser)):
     return cars
 
 
+# API Endpoint which is used to recommend cars based on users query
 @router.get("/recommend/word-embeddings", response_model=list[Car])
 async def recommendation_word_embeddings(index: str = Query(...)):
     data = pd.read_csv('./data/final_car_data.csv')
@@ -82,6 +85,7 @@ async def recommendation_word_embeddings(index: str = Query(...)):
     return cars
 
 
+# API Endpoint which is used to recommend cars based on questionnaire filled by a user
 @router.post("/recommend/kmeans", response_model=list[Car])
 async def recommendation_kmeans(userPreference: CarRecommendRequest):
     data_user_preference = {
@@ -145,6 +149,7 @@ async def recommendation_kmeans(userPreference: CarRecommendRequest):
     return cars
 
 
+# API Endpoint which is used to recommend cars based on user ratings
 @router.get("/recommend/matrix-factorization", response_model=list[Car])
 async def recommendation_matrix_factorization(current_user: User = Depends(currentUser)):
     user = user_collection.find_one({"_id": current_user["_id"]})

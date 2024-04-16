@@ -11,6 +11,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 router = APIRouter()
 
 
+# Get user API Endpoint
 @router.get("", response_model=UserTokenResponse)
 async def get_user(current_user: dict = Depends(currentUser)):
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -26,6 +27,7 @@ async def get_user(current_user: dict = Depends(currentUser)):
     }
 
 
+# Update user API Endpoint
 @router.put("", response_model=UserWOPass)
 async def update_user(user: User, current_user: dict = Depends(currentUser)):
     user_collection.update_one({"email": current_user['email']}, {"$set": user.dict()})
@@ -36,6 +38,7 @@ async def update_user(user: User, current_user: dict = Depends(currentUser)):
     }
 
 
+# Delete user API Endpoint
 @router.delete("", response_model=dict)
 async def delete_user(current_user: User = Depends(currentUser)):
     result = user_collection.delete_one({"email": current_user['email']})
@@ -45,6 +48,7 @@ async def delete_user(current_user: User = Depends(currentUser)):
         raise HTTPException(status_code=500, detail="Something went wrong")
 
 
+# API Enpoint to store rating of a car given by a user
 @router.post("/rating", response_model=UserWOPass)
 async def user_rating(data: UserRatingRequest, current_user: dict = Depends(currentUser)):
     user = user_collection.find_one({"_id": current_user["_id"]})

@@ -7,7 +7,7 @@ from models.user import User
 
 router = APIRouter()
 
-
+# API Endpoint to populate local db using the csv in data folder
 @router.get("/database", response_model=dict)
 async def populate_database():
     cars = pd.read_csv('./data/final_car_data.csv')
