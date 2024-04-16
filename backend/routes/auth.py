@@ -10,6 +10,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 router = APIRouter()
 
 
+# API Endpoint for login
 @router.post("/login", response_model=UserTokenResponse)
 async def login(form_data: UserLoginRequest):
     user: User = userAuth(form_data.email, form_data.password)
@@ -32,6 +33,7 @@ async def login(form_data: UserLoginRequest):
     }
 
 
+# API Endpoint for Signup
 @router.post("/signup", response_model=UserTokenResponse)
 async def signup(user: UserSignupRequest):
     user.password = hashPassword(user.password)

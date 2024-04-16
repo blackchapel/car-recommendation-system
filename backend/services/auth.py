@@ -16,6 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
+# Function to verify credentials on login
 def userAuth(email: str, password: str):
     user: User = user_collection.find_one({"email": email})
     if not user or not verifyPassword(password, user['password']):
@@ -23,6 +24,7 @@ def userAuth(email: str, password: str):
     return user
 
 
+# Fucntion to generate JWT based access tokens
 def accessToken(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -34,14 +36,17 @@ def accessToken(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
+# Function to compare password hash
 def verifyPassword(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 
+# Fucntion to hash password
 def hashPassword(password):
     return pwd_context.hash(password)
 
 
+# Middleware function to check for JWT access token for API Endpoints which require authentication
 async def currentUser(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
