@@ -17,6 +17,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
   - [Test User Credentials](#c-test-user-credentials)
 - [API Documentation](#api-documentation)
 - [Working of Recommendation System](#working-of-recommendation-system)
+- [Working of Web Application](#working-of-web-application)
 - [Screenshots](#screenshots)
 - [Deployed Links](#deployed-links)
 - [Tech Stacks](#tech-stacks)
@@ -159,9 +160,25 @@ The recommendation system operates through a multi-step process to provide perso
 4. **Matrix Factorization:**
    Matrix Factorization is utilized as a collaborative filtering technique to personalize recommendations based on user interactions. If a user has provided ratings to different vehicles, Matrix Factorization identifies latent factors underlying user preferences and vehicle characteristics. By decomposing the user-item interaction matrix, Matrix Factorization captures hidden patterns in user behavior and generates recommendations tailored to individual preferences as well as based on similarities with other users.
 
-![Image Alt text](/assets/flowchart3.png "Working Flowchart")
+![Image Alt text](/assets/flowchart5.png "Working Flowchart")
 
 For detailed implementation and code, refer to the ipynb [file](https://github.com/blackchapel/car-recommendation-system/blob/main/backend/ml/models.ipynb) available in the repository. The code is also accessible [here](https://colab.research.google.com/drive/1TFqACz4WgLerQOL3mYGVlSD2LlttTR5y?usp=sharing).
+
+## Working of Web Application
+The web application offers three key features:
+1. **Search Functionality**: Users can search for specific vehicles.
+2. **Tailored Recommendations**: Users can answer a 5-question questionnaire to receive personalized vehicle recommendations.
+3. **Advanced Recommendation System**: Users can explore further recommendations based on various parameters. 
+
+Additionally, the platform includes a ratings feature, allowing users to rate cars they like.
+
+Account creation and management are supported, enabling users to save their ratings and receive further recommendations based on their preferences. Authentication is secured through the implementation of JSON Web Tokens (JWT) and OAuth2.0 protocols.
+
+To enhance the search experience, the autocomplete API implemented suggests relevant options as users type.
+
+The application leverages Word Embeddings to analyze user search queries, enabling the recommendation of further similar cars. Upon completing the questionnaire, K-means clustering is utilized to tailor recommendations. Ratings provided by users inform the Matrix Factorization model, facilitating precise recommendations based on user preferences.
+
+This succinct description encapsulates the key functionalities and security measures of the web application.
 
 ## Screenshots
 
