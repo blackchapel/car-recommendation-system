@@ -46,76 +46,56 @@ async def populate_database():
         "password": "pass@123",
         "ratings": [
             {
-                "index": 0,
-                "make_model": "Chevrolet Silverado 4WD",
+                "index": 435,
+                "make_model": "BMW iX xDrive40 (20 inch Wheels)",
+                "rating": 4
+            },
+            {
+                "index": 249,
+                "make_model": "Toyota Grand Highlander Hybrid AWD",
                 "rating": 5
             },
             {
-                "index": 1,
-                "make_model": "Alfa Romeo Stelvio AWD",
+                "index": 385,
+                "make_model": "Audi Q8 e-tron quattro",
+                "rating": 5
+            },
+            {
+                "index": 257,
+                "make_model": "Kia EV6 Long Range RWD",
                 "rating": 4
             },
             {
-                "index": 3,
-                "make_model": "Genesis G80 AWD",
-                "rating": 4
-            },
-            {
-                "index": 16,
-                "make_model": "BMW i5 eDrive40 Sedan (20 inch Wheels)",
-                "rating": 3
-            },
-            {
-                "index": 2,
-                "make_model": "BMW Z4 sDrive30i",
-                "rating": 3
-            },
-            {
-                "index": 1358,
-                "make_model": "Audi R8",
-                "rating": 4
-            },
-            {
-                "index": 1601,
-                "make_model": "Audi R8 AWD",
-                "rating": 3
+                "index": 103,
+                "make_model": "Hyundai Ioniq 5 Standard range RWD",
+                "rating": 5
             }
         ],
-        "ratings_copy":[
+        "ratings_copy": [
             {
-                "index": 0,
-                "make_model": "Chevrolet Silverado 4WD",
+                "index": 435,
+                "make_model": "BMW iX xDrive40 (20 inch Wheels)",
+                "rating": 4
+            },
+            {
+                "index": 249,
+                "make_model": "Toyota Grand Highlander Hybrid AWD",
                 "rating": 5
             },
             {
-                "index": 1,
-                "make_model": "Alfa Romeo Stelvio AWD",
+                "index": 385,
+                "make_model": "Audi Q8 e-tron quattro",
+                "rating": 5
+            },
+            {
+                "index": 257,
+                "make_model": "Kia EV6 Long Range RWD",
                 "rating": 4
             },
             {
-                "index": 3,
-                "make_model": "Genesis G80 AWD",
-                "rating": 4
-            },
-            {
-                "index": 16,
-                "make_model": "BMW i5 eDrive40 Sedan (20 inch Wheels)",
-                "rating": 3
-            },
-            {
-                "index": 2,
-                "make_model": "BMW Z4 sDrive30i",
-                "rating": 3
-            },
-            {
-                "index": 1358,
-                "make_model": "Audi R8",
-                "rating": 4
-            },
-            {
-                "index": 1601,
-                "make_model": "Audi R8 AWD",
-                "rating": 3
+                "index": 103,
+                "make_model": "Hyundai Ioniq 5 Standard range RWD",
+                "rating": 5
             }
         ]
     }
