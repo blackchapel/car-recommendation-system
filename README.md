@@ -11,10 +11,11 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 ### Table of Contents
 
 - [Description](#description)
+  - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
-  - [Launch Project](#a-launch-project)
-  - [Script to Populate Database](#b-populate-the-local-database)
-  - [Test User Credentials](#c-test-user-credentials)
+  - [A. Launch Project](#a-launch-project)
+  - [B. Populate the local database](#b-populate-the-local-database)
+  - [C. Test User Credentials](#c-test-user-credentials)
 - [API Documentation](#api-documentation)
 - [Working of Recommendation System](#working-of-recommendation-system)
 - [Working of Web Application](#working-of-web-application)
@@ -66,6 +67,8 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
       ```bash
       docker -compose up
       ```
+
+   :warning: It will take around 3 to 5 minutes to build the docker containers
 
 2. **To run project without docker -**
 
@@ -165,10 +168,12 @@ The recommendation system operates through a multi-step process to provide perso
 For detailed implementation and code, refer to the ipynb [file](https://github.com/blackchapel/car-recommendation-system/blob/main/backend/ml/models.ipynb) available in the repository. The code is also accessible [here](https://colab.research.google.com/drive/1TFqACz4WgLerQOL3mYGVlSD2LlttTR5y?usp=sharing).
 
 ## Working of Web Application
+
 The web application offers three key features:
+
 1. **Search Functionality**: Users can search for specific vehicles.
 2. **Tailored Recommendations**: Users can answer a 5-question questionnaire to receive personalized vehicle recommendations.
-3. **Advanced Recommendation System**: Users can explore further recommendations based on various parameters. 
+3. **Advanced Recommendation System**: Users can explore further recommendations based on various parameters.
 
 Additionally, the platform includes a ratings feature, allowing users to rate cars they like.
 
@@ -179,6 +184,8 @@ To enhance the search experience, the autocomplete API implemented suggests rele
 The application leverages Word Embeddings to analyze user search queries, enabling the recommendation of further similar cars. Upon completing the questionnaire, K-means clustering is utilized to tailor recommendations. Ratings provided by users inform the Matrix Factorization model, facilitating precise recommendations based on user preferences.
 
 This succinct description encapsulates the key functionalities and security measures of the web application.
+
+Here is a [user](https://scribehow.com/shared/Car_Recommendation_System__User_Guide__KPt1ANuRSMGKi94smtgc7w) guide to help you navigate the website when you run it locally. If the previous link is not accessbile please try this [link](https://drive.google.com/drive/folders/1VXOD2936EEysTPvPm6W62-VjFVfpL9RX?usp=sharing).
 
 ## Screenshots
 
