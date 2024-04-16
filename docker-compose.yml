@@ -8,7 +8,6 @@ services:
       - "27017:27017"
     networks:
       my-network:
-        ipv4_address: 172.18.0.2
 
   backend:
     build:
@@ -17,13 +16,10 @@ services:
     command: uvicorn main:app --host=0.0.0.0 --port=80
     ports:
       - "8000:80"
-    volumes:
-      - ./backend:/appbackend
     depends_on:
       - mongo_db
     networks:
       my-network:
-        ipv4_address: 172.18.0.3
 
   frontend:
     build:
@@ -32,23 +28,13 @@ services:
     command: npm start
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/appfrontend
     depends_on:
       - backend
     networks:
       my-network:
-        ipv4_address: 172.18.0.4
 
 networks:
   my-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/16
 
 volumes:
   mongo_db:
-  backend:
-  frontend:
