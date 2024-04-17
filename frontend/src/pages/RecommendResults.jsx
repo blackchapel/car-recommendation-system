@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
+import SearchContext from "../context/SearchContext";
 import ResultsCard from "../components/search/ResultsCard.jsx";
 
 const RecommendResults = () => {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const [recommendedCars, setRecommendedCars] = useState([]);
+  const { selectedCar, setSelectedCar } = useContext(SearchContext);
 
   const fetchCars = () => {
     setIsLoading(true);
@@ -71,6 +76,10 @@ const RecommendResults = () => {
             {recommendedCars.map((car, index) => (
               <Grid item xs={12} md={4} lg={4}>
                 <ResultsCard
+                  onClick={() => {
+                    setSelectedCar(car);
+                    navigate(`/search/${car.index}`);
+                  }}
                   key={index}
                   make={car.make}
                   model={car.model}
