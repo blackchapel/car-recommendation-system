@@ -53,7 +53,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
 **NOTE:** Project can be run locally by following either Step 4 or Step 5.
 
-1. **To run project with docker -**
+4. **To run project with docker -**
 
    :warning: Prerequisite - [Docker](https://docs.docker.com/get-docker/) must be installed
 
@@ -70,7 +70,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
    :warning: It will take around 3 to 5 minutes to build the docker containers
 
-2. **To run project without docker -**
+5. **To run project without docker -**
 
    1. In the `.env` file created above, replace the value of `MONGODB_URI` variable with the URI of your own MongoDB database
 
@@ -122,7 +122,7 @@ The Car Recommendation System is a dynamic platform designed to cater to two dis
 
       Frontend server is now running in this terminal
 
-3. **Once the docker container/local servers are running -**
+6. **Once the docker container/local servers are running -**
    - Frontend will be available on [localhost:3000](http://localhost:3000)
    - Backend will be available on [localhost:8000](http://localhost:8000)
    - Database will be available
